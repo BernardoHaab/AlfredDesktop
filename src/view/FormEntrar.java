@@ -14,6 +14,9 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import modelDominio.Empresa;
+import modelDominio.Usuario;
 
 /**
  *
@@ -33,6 +36,7 @@ public class FormEntrar extends javax.swing.JFrame {
         jLblImagem.setIcon(image);
         System.out.println(Toolkit.getDefaultToolkit().getScreenSize());
         jBtnEntrar.requestFocus(); 
+        jPswSenha.setEchoChar((char)0);
     }
 
     /**
@@ -61,11 +65,11 @@ public class FormEntrar extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
-        jTxtSenha = new javax.swing.JTextField();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 11), new java.awt.Dimension(0, 11), new java.awt.Dimension(32767, 11));
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 11), new java.awt.Dimension(0, 11), new java.awt.Dimension(32767, 11));
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
+        jPswSenha = new javax.swing.JPasswordField();
         jBtnEntrar = new javax.swing.JButton();
         jLblRecuperar = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -124,30 +128,25 @@ public class FormEntrar extends javax.swing.JFrame {
         jPanelSenha.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, -1, -1));
         jPanelSenha.add(filler5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 20, -1));
         jPanelSenha.add(filler8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 20, -1));
-
-        jTxtSenha.setBackground(new java.awt.Color(234, 234, 234));
-        jTxtSenha.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
-        jTxtSenha.setForeground(new java.awt.Color(150, 150, 150));
-        jTxtSenha.setText("Senha");
-        jTxtSenha.setBorder(null);
-        jTxtSenha.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTxtSenhaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTxtSenhaFocusLost(evt);
-            }
-        });
-        jTxtSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtSenhaActionPerformed(evt);
-            }
-        });
-        jPanelSenha.add(jTxtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 350, -1));
         jPanelSenha.add(filler9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 80, -1));
         jPanelSenha.add(filler10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 80, -1));
         jPanelSenha.add(filler11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
         jPanelSenha.add(filler12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
+
+        jPswSenha.setBackground(new java.awt.Color(234, 234, 234));
+        jPswSenha.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
+        jPswSenha.setForeground(new java.awt.Color(150, 150, 150));
+        jPswSenha.setText("Senha");
+        jPswSenha.setBorder(null);
+        jPswSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPswSenhaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jPswSenhaFocusLost(evt);
+            }
+        });
+        jPanelSenha.add(jPswSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 340, -1));
 
         jBtnEntrar.setBackground(new java.awt.Color(150, 150, 150));
         jBtnEntrar.setFont(new java.awt.Font("Poppins Medium", 0, 20)); // NOI18N
@@ -254,14 +253,28 @@ public class FormEntrar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEntrarActionPerformed
-        Home home = new Home();
-        home.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_jBtnEntrarActionPerformed
+        String email = jTxtEmail.getText().trim();
+        String senha = String.valueOf(jPswSenha.getPassword()).trim();
+        
+        if (email.equals("") ||email .equals("Email") && Usuario.validaEmail(senha)) {
+            JOptionPane.showMessageDialog(this, "Preecha o campo Email", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jTxtEmail.requestFocus();
+        }
+        else if(senha.equals("") || senha.equals("Senha")) {
+           JOptionPane.showMessageDialog(this, "Preecha o campo Senha", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jPswSenha.requestFocus();
+        }
+        else {
+            Empresa empresaUsuario = new Empresa(email, senha);
+            
+            Empresa empresaSelecionada = AlfredCliente.ccont.efetuarLogin(empresaUsuario);
+            System.out.println(empresaSelecionada);
+            Home home = new Home(empresaSelecionada);
+            home.setVisible(true);
+            dispose();
+        }
 
-    private void jTxtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtSenhaActionPerformed
+    }//GEN-LAST:event_jBtnEntrarActionPerformed
 
     private void jTxtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtEmailActionPerformed
         // TODO add your handling code here:
@@ -287,25 +300,27 @@ public class FormEntrar extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jTxtEmailFocusLost
 
-    private void jTxtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtSenhaFocusGained
-        if (jTxtSenha.getText().trim().equals("Senha")) {
-            jTxtSenha.setText("");
-            jTxtSenha.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_jTxtSenhaFocusGained
-
-    private void jTxtSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtSenhaFocusLost
-        if (jTxtSenha.getText().trim().equals("")) {
-            jTxtSenha.setText("Senha");
-            jTxtSenha.setForeground(new Color(199,199,199));
-        }
-    }//GEN-LAST:event_jTxtSenhaFocusLost
-
     private void jLblRecuperarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLblRecuperarMouseClicked
         FormRecuperarSenha formRecuperar = new FormRecuperarSenha();
         formRecuperar.setVisible(true);
         dispose();
     }//GEN-LAST:event_jLblRecuperarMouseClicked
+
+    private void jPswSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPswSenhaFocusGained
+        if (String.valueOf(jPswSenha.getPassword()).trim().equals("Senha")) {
+            jPswSenha.setText("");
+            jPswSenha.setForeground(Color.BLACK);
+            jPswSenha.setEchoChar((char)'*');
+        }
+    }//GEN-LAST:event_jPswSenhaFocusGained
+
+    private void jPswSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPswSenhaFocusLost
+        if (String.valueOf(jPswSenha.getPassword()).trim().equals("")) {
+            jPswSenha.setEchoChar((char)0);
+            jPswSenha.setText("Senha");
+            jPswSenha.setForeground(new Color(150, 150, 150));
+        }
+    }//GEN-LAST:event_jPswSenhaFocusLost
 
     /**
      * @param args the command line arguments
@@ -368,7 +383,7 @@ public class FormEntrar extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelEmail;
     private javax.swing.JPanel jPanelEsquerda;
     private javax.swing.JPanel jPanelSenha;
+    private javax.swing.JPasswordField jPswSenha;
     private javax.swing.JTextField jTxtEmail;
-    private javax.swing.JTextField jTxtSenha;
     // End of variables declaration//GEN-END:variables
 }

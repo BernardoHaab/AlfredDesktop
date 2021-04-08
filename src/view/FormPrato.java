@@ -5,11 +5,15 @@
  */
 package view;
 
+import modelDominio.Prato;
+
 /**
  *
  * @author be_ha
  */
 public class FormPrato extends javax.swing.JDialog {
+    
+    Prato prato = null;
 
     /**
      * Creates new form FormPrato
@@ -17,6 +21,15 @@ public class FormPrato extends javax.swing.JDialog {
     public FormPrato(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    
+    public FormPrato(java.awt.Frame parent, boolean modal, Prato prato) {
+        super(parent, modal);
+        this.prato = prato;
+        initComponents();
+        jTxtNome.setText(this.prato.getNomePrato());
+        jTxtDescricao.setText(this.prato.getDescricaoPrato());
+        jTxtValor.setText(this.prato.getValorPratoString());
     }
 
     /**
@@ -48,6 +61,7 @@ public class FormPrato extends javax.swing.JDialog {
         jLabel1.setText("Nome");
 
         jTxtNome.setBackground(new java.awt.Color(234, 234, 234));
+        jTxtNome.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
 
         jLabel2.setBackground(new java.awt.Color(150, 150, 150));
         jLabel2.setFont(new java.awt.Font("Poppins SemiBold", 0, 18)); // NOI18N
@@ -55,8 +69,10 @@ public class FormPrato extends javax.swing.JDialog {
         jLabel2.setText("Descrição");
 
         jTxtDescricao.setBackground(new java.awt.Color(234, 234, 234));
+        jTxtDescricao.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
 
         jTxtValor.setBackground(new java.awt.Color(234, 234, 234));
+        jTxtValor.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
 
         jLabel3.setBackground(new java.awt.Color(150, 150, 150));
         jLabel3.setFont(new java.awt.Font("Poppins SemiBold", 0, 18)); // NOI18N
@@ -143,10 +159,11 @@ public class FormPrato extends javax.swing.JDialog {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
     private void jBtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSalvarActionPerformed

@@ -10,22 +10,37 @@ public class Endereco implements Serializable {
     private String ruaEndereco;
     private String bairroEndereco;
     private String complementoEndereco;
+    private int numeroEndereco;
 
-    public Endereco(int codEndereco, String cidadeEndereco, String estadoEndereco, String ruaEndereco, String bairroEndereco, String complementoEndereco) {
+    public Endereco(int codEndereco, String cidadeEndereco, String estadoEndereco, String ruaEndereco, String bairroEndereco, String complementoEndereco, int numeroEndereco) {
         this.codEndereco = codEndereco;
         this.cidadeEndereco = cidadeEndereco;
         this.estadoEndereco = estadoEndereco;
         this.ruaEndereco = ruaEndereco;
         this.bairroEndereco = bairroEndereco;
         this.complementoEndereco = complementoEndereco;
+        this.numeroEndereco = numeroEndereco;
     }
 
-    public Endereco(String cidadeEndereco, String estadoEndereco, String ruaEndereco, String bairroEndereco, String complementoEndereco) {
+    public Endereco(String cidadeEndereco, String estadoEndereco, String ruaEndereco, String bairroEndereco, String complementoEndereco, int numeroEndereco) {
         this.cidadeEndereco = cidadeEndereco;
         this.estadoEndereco = estadoEndereco;
         this.ruaEndereco = ruaEndereco;
         this.bairroEndereco = bairroEndereco;
         this.complementoEndereco = complementoEndereco;
+        this.numeroEndereco = numeroEndereco;
+    }
+
+    public int getNumeroEndereco() {
+        return numeroEndereco;
+    }
+
+    public void setNumeroEndereco(int numeroEndereco) {
+        this.numeroEndereco = numeroEndereco;
+    }
+
+    public String getNumeroEnderecoToString() {
+        return Integer.toString(numeroEndereco);
     }
 
     public Endereco(int codEndereco) {

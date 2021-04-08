@@ -3,35 +3,67 @@ package modelDominio;
 import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class Empresa implements Serializable {
+public class Empresa extends Usuario implements Serializable {
     private static final long serialVersionUID = 123456789L;
+    
     private int codEmpresa;
     private String nomeEmpresa;
     private String cnpjEmpresa;
     private Boolean abertoFechadoEmpresa;
-    private int codCategoria;
-    private String nomeCategoria;
-    private int notaAvaliacao;
-    private byte[] imagemEmpresa;
+    private Categoria categoriaEmpresa = null;
+//    private String nomeCategoria;
+//    private int notaAvaliacao;
+    private Endereco enderecoEmpresa = null;
+    private byte[] imagemEmpresa = null;
 
 
-    public Empresa(int codEmpresa, String nomeEmpresa, String cnpjEmpresa, Boolean abertoFechadoEmpresa, int codCategoria, byte[] imagemEmpresa) {
+    public Empresa(
+        int codEmpresa, 
+        String nomeEmpresa, 
+        String cnpjEmpresa, 
+        Boolean abertoFechadoEmpresa, 
+        Categoria categoriaEmpresa, 
+        Endereco enderecoEmpresa, 
+        byte[] imagemEmpresa,
+        int codUsuario,
+        String emailUsuario,
+        String senhaUsuario
+    ) {
+        super(codUsuario, emailUsuario, senhaUsuario);
         this.codEmpresa = codEmpresa;
         this.nomeEmpresa = nomeEmpresa;
         this.cnpjEmpresa = cnpjEmpresa;
         this.abertoFechadoEmpresa = abertoFechadoEmpresa;
-        this.codCategoria = codCategoria;
+        this.categoriaEmpresa = categoriaEmpresa;
+        this.enderecoEmpresa = enderecoEmpresa;
         this.imagemEmpresa = imagemEmpresa;
     }
 
-    public Empresa(String nomeEmpresa, String cnpjEmpresa, Boolean abertoFechadoEmpresa, int codCategoria, byte[] imagemEmpresa) {
+    public Empresa(
+        String nomeEmpresa, 
+        String cnpjEmpresa, 
+        Boolean abertoFechadoEmpresa, 
+        Categoria categoriaEmpresa, 
+        Endereco enderecoEmpresa, 
+        byte[] imagemEmpresa,
+        String emailUsuario,
+        String senhaUsuario
+    ) {
+        super(emailUsuario, senhaUsuario);
         this.nomeEmpresa = nomeEmpresa;
         this.cnpjEmpresa = cnpjEmpresa;
         this.abertoFechadoEmpresa = abertoFechadoEmpresa;
-        this.codCategoria = codCategoria;
+        this.categoriaEmpresa = categoriaEmpresa;
+        this.enderecoEmpresa = enderecoEmpresa;
         this.imagemEmpresa = imagemEmpresa;
     }
-
+    
+    public Empresa(String nomeEmpresa, String emailUsuario, String senhaUsuario, String cnpjEnmpresa) {
+        super(emailUsuario, senhaUsuario);
+        this.nomeEmpresa = nomeEmpresa;
+        this.cnpjEmpresa = cnpjEnmpresa;
+    }
+    
     public Empresa(int codEmpresa, String nomeEmpresa) {
         this.codEmpresa = codEmpresa;
         this.nomeEmpresa = nomeEmpresa;
@@ -40,6 +72,77 @@ public class Empresa implements Serializable {
     public Empresa(int codEmpresa) {
         this.codEmpresa = codEmpresa;
     }
+    
+    public Empresa(int codUsuario, String nomeUsuario, String senhaUsuario) {
+        super(codUsuario, senhaUsuario, senhaUsuario);
+    }
+    
+    public Empresa(String emailUsuario, String senhaUsuario) {
+        super(emailUsuario, senhaUsuario);
+    }
+    
+    public Empresa(String nomeEmpresa, String cnpjEmpresa, int codUsuario) {
+        super(codUsuario);
+        this.nomeEmpresa = nomeEmpresa;
+        this.cnpjEmpresa = cnpjEmpresa;
+    }
+    
+    public int getCodEmpresa() {
+        return codEmpresa;
+    }
+
+    public void setCodEmpresa(int codEmpresa) {
+        this.codEmpresa = codEmpresa;
+    }
+
+    public String getNomeEmpresa() {
+        return nomeEmpresa;
+    }
+
+    public void setNomeEmpresa(String nomeEmpresa) {
+        this.nomeEmpresa = nomeEmpresa;
+    }
+
+    public String getCnpjEmpresa() {
+        return cnpjEmpresa;
+    }
+
+    public void setCnpjEmpresa(String cnpjEmpresa) {
+        this.cnpjEmpresa = cnpjEmpresa;
+    }
+
+    public Boolean getAbertoFechadoEmpresa() {
+        return abertoFechadoEmpresa;
+    }
+
+    public void setAbertoFechadoEmpresa(Boolean abertoFechadoEmpresa) {
+        this.abertoFechadoEmpresa = abertoFechadoEmpresa;
+    }
+
+    public Categoria getCategoriaEmpresa() {
+        return categoriaEmpresa;
+    }
+
+    public void setCategoriaEmpresa(Categoria categoriaEmpresa) {
+        this.categoriaEmpresa = categoriaEmpresa;
+    }
+
+    public Endereco getEnderecoEmpresa() {
+        return enderecoEmpresa;
+    }
+
+    public void setEnderecoEmpresa(Endereco enderecoEmpresa) {
+        this.enderecoEmpresa = enderecoEmpresa;
+    }
+
+    public byte[] getImagemEmpresa() {
+        return imagemEmpresa;
+    }
+
+    public void setImagemEmpresa(byte[] imagemEmpresa) {
+        this.imagemEmpresa = imagemEmpresa;
+    }
+    
     
     public static boolean validaCnpj(String CNPJ) {
         // considera-se erro CNPJ's formados por uma sequencia de numeros iguais
@@ -99,74 +202,41 @@ public class Empresa implements Serializable {
             return(false);
         }
     }
-    
-    public int getCodEmpresa() {
-        return codEmpresa;
-    }
 
-    public void setCodEmpresa(int codEmpresa) {
-        this.codEmpresa = codEmpresa;
-    }
+//    public int getCodCategoria() {
+//        return codCategoria;
+//    }
+//
+//    public void setCodCategoria(int codCategoria) {
+//        this.codCategoria = codCategoria;
+//    }
+//
+//    public byte[] getImagemEmpresa() {
+//        return imagemEmpresa;
+//    }
+//
+//    public void setImagemEmpresa(byte[] imagemEmpresa) {
+//        this.imagemEmpresa = imagemEmpresa;
+//    }
+//
+//    public String getNomeCategoria() {
+//        return nomeCategoria;
+//    }
+//
+//    public void setNomeCategoria(String nomeCategoria) {
+//        this.nomeCategoria = nomeCategoria;
+//    }
+//
+//    public int getNotaAvaliacao() {
+//        return notaAvaliacao;
+//    }
+//
+//    public void setNotaAvaliacao(int notaAvaliacao) {
+//        this.notaAvaliacao = notaAvaliacao;
+//    }
 
-    public String getNomeEmpresa() {
-        return nomeEmpresa;
-    }
-
-    public void setNomeEmpresa(String nomeEmpresa) {
-        this.nomeEmpresa = nomeEmpresa;
-    }
-
-    public String getCnpjEmpresa() {
-        return cnpjEmpresa;
-    }
-
-    public void setCnpjEmpresa(String cnpjEmpresa) {
-        this.cnpjEmpresa = cnpjEmpresa;
-    }
-
-    public Boolean getAbertoFechadoEmpresa() {
-        return abertoFechadoEmpresa;
-    }
-
-    public void setAbertoFechadoEmpresa(Boolean abertoFechadoEmpresa) {
-        this.abertoFechadoEmpresa = abertoFechadoEmpresa;
-    }
-
-    public int getCodCategoria() {
-        return codCategoria;
-    }
-
-    public void setCodCategoria(int codCategoria) {
-        this.codCategoria = codCategoria;
-    }
-
-    public byte[] getImagemEmpresa() {
-        return imagemEmpresa;
-    }
-
-    public void setImagemEmpresa(byte[] imagemEmpresa) {
-        this.imagemEmpresa = imagemEmpresa;
-    }
-
-    public String getNomeCategoria() {
-        return nomeCategoria;
-    }
-
-    public void setNomeCategoria(String nomeCategoria) {
-        this.nomeCategoria = nomeCategoria;
-    }
-
-    public int getNotaAvaliacao() {
-        return notaAvaliacao;
-    }
-
-    public void setNotaAvaliacao(int notaAvaliacao) {
-        this.notaAvaliacao = notaAvaliacao;
-    }
-    
     @Override
     public String toString() {
-        return "Empresa{" + "codEmpresa=" + codEmpresa + ", nomeEmpresa=" + nomeEmpresa + ", cnpjEmpresa=" + cnpjEmpresa + ", abertoFechadoEmpresa=" + abertoFechadoEmpresa + ", codCategoria=" + codCategoria + ", imagemEmpresa=" + imagemEmpresa + '}';
+        return "Empresa{" + "codEmpresa=" + codEmpresa + ", nomeEmpresa=" + nomeEmpresa + ", cnpjEmpresa=" + cnpjEmpresa + ", abertoFechadoEmpresa=" + abertoFechadoEmpresa + ", categoriaEmpresa=" + categoriaEmpresa + ", enderecoEmpresa=" + enderecoEmpresa + '}' + super.toString();
     }
-
 }   

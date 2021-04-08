@@ -5,11 +5,19 @@
  */
 package view;
 
+import controller.ConexaoController;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
+import java.text.ParseException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.MaskFormatter;
+import modelDominio.Empresa;
+import modelDominio.Usuario;
 
 /**
  *
@@ -19,15 +27,17 @@ public class FormCadastrar extends javax.swing.JFrame {
 
     /**
      * Creates new form Cadastrar
-     */
+     */    
     public FormCadastrar() {
         initComponents();
+        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         jPanel1.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
         String caminhoBase = new File("").getAbsolutePath();
         ImageIcon image = new ImageIcon(caminhoBase + "\\src\\view\\imagens\\teste_esquerda.jpg");
         jLblImagem.setIcon(image);
         jBtnCadastrar.requestFocus();
+        jPswSenha.setEchoChar((char)0);
     }
 
     /**
@@ -57,11 +67,11 @@ public class FormCadastrar extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         filler5 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         filler8 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
-        jTxtCnpj = new javax.swing.JTextField();
         filler9 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 11), new java.awt.Dimension(0, 11), new java.awt.Dimension(32767, 11));
         filler10 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 11), new java.awt.Dimension(0, 11), new java.awt.Dimension(32767, 11));
         filler11 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
         filler12 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
+        jTxtCnpj = new javax.swing.JTextField();
         jPanelEmail = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         filler13 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
@@ -75,11 +85,11 @@ public class FormCadastrar extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         filler19 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
         filler20 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 15), new java.awt.Dimension(0, 15), new java.awt.Dimension(32767, 15));
-        jTxtSenha = new javax.swing.JTextField();
         filler21 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 11), new java.awt.Dimension(0, 11), new java.awt.Dimension(32767, 11));
         filler22 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 11), new java.awt.Dimension(0, 11), new java.awt.Dimension(32767, 11));
         filler23 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
         filler24 = new javax.swing.Box.Filler(new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 0), new java.awt.Dimension(15, 32767));
+        jPswSenha = new javax.swing.JPasswordField();
         jBtnCadastrar = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
 
@@ -135,6 +145,10 @@ public class FormCadastrar extends javax.swing.JFrame {
         jPanelCNPJ.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, -1, -1));
         jPanelCNPJ.add(filler5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 20, -1));
         jPanelCNPJ.add(filler8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 20, -1));
+        jPanelCNPJ.add(filler9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 80, -1));
+        jPanelCNPJ.add(filler10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 80, -1));
+        jPanelCNPJ.add(filler11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+        jPanelCNPJ.add(filler12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
 
         jTxtCnpj.setBackground(new java.awt.Color(234, 234, 234));
         jTxtCnpj.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
@@ -149,16 +163,7 @@ public class FormCadastrar extends javax.swing.JFrame {
                 jTxtCnpjFocusLost(evt);
             }
         });
-        jTxtCnpj.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtCnpjActionPerformed(evt);
-            }
-        });
-        jPanelCNPJ.add(jTxtCnpj, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 350, -1));
-        jPanelCNPJ.add(filler9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 80, -1));
-        jPanelCNPJ.add(filler10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 80, -1));
-        jPanelCNPJ.add(filler11, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
-        jPanelCNPJ.add(filler12, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
+        jPanelCNPJ.add(jTxtCnpj, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 340, -1));
 
         jPanelEmail.setBackground(new java.awt.Color(234, 234, 234));
         jPanelEmail.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -199,30 +204,25 @@ public class FormCadastrar extends javax.swing.JFrame {
         jPanelSenha.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 15, -1, -1));
         jPanelSenha.add(filler19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 20, -1));
         jPanelSenha.add(filler20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 20, -1));
-
-        jTxtSenha.setBackground(new java.awt.Color(234, 234, 234));
-        jTxtSenha.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
-        jTxtSenha.setForeground(new java.awt.Color(150, 150, 150));
-        jTxtSenha.setText("Informe a Senha");
-        jTxtSenha.setBorder(null);
-        jTxtSenha.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTxtSenhaFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTxtSenhaFocusLost(evt);
-            }
-        });
-        jTxtSenha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTxtSenhaActionPerformed(evt);
-            }
-        });
-        jPanelSenha.add(jTxtSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 350, -1));
         jPanelSenha.add(filler21, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 80, -1));
         jPanelSenha.add(filler22, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 80, -1));
         jPanelSenha.add(filler23, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
         jPanelSenha.add(filler24, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
+
+        jPswSenha.setBackground(new java.awt.Color(234, 234, 234));
+        jPswSenha.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
+        jPswSenha.setForeground(new java.awt.Color(150, 150, 150));
+        jPswSenha.setText("Informe a Senha");
+        jPswSenha.setBorder(null);
+        jPswSenha.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPswSenhaFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jPswSenhaFocusLost(evt);
+            }
+        });
+        jPanelSenha.add(jPswSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 340, -1));
 
         jBtnCadastrar.setBackground(new java.awt.Color(150, 150, 150));
         jBtnCadastrar.setFont(new java.awt.Font("Poppins Medium", 0, 20)); // NOI18N
@@ -324,21 +324,65 @@ public class FormCadastrar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtNomeActionPerformed
 
-    private void jTxtCnpjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtCnpjActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtCnpjActionPerformed
-
     private void jBtnCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCadastrarActionPerformed
-        // TODO add your handling code here:
+        String nome = jTxtNome.getText().trim();
+        String cnpj = jTxtCnpj.getText().trim();
+        String email = jTxtEmail.getText().trim();
+        String senha = String.valueOf(jPswSenha.getPassword()).trim();
+        
+        if (nome.equals("") || nome.equals("Informe o Nome")) {
+            JOptionPane.showMessageDialog(this, "Preecha o campo Nome", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jTxtNome.requestFocus();
+        }
+        else if(cnpj.equals("") || cnpj.equals("Informe o CNPJ") && Empresa.validaCnpj(cnpj)) {
+           JOptionPane.showMessageDialog(this, "Preecha o campo CNPJ", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jTxtCnpj.requestFocus();
+        }
+        else if(email.equals("") || email.equals("Informe o Email") && Usuario.validaEmail(senha)) {
+           JOptionPane.showMessageDialog(this, "Preecha o campo Email", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jTxtEmail.requestFocus();
+        }
+        else if(senha.equals("") || senha.equals("Informe a Senha")) {
+           JOptionPane.showMessageDialog(this, "Preecha o campo Senha", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jPswSenha.requestFocus();
+        }
+        else {
+            Empresa empresaTeste = new Empresa(nome, email, senha, cnpj);
+            
+            boolean empresaExistente = AlfredCliente.ccont.empresaEsiste(empresaTeste);
+            
+            if (empresaExistente) {
+                JOptionPane.showMessageDialog(this, "CNPJ e/ou Email já usados", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            } else {
+                Empresa empresaUsuario = new Empresa(email, senha);
+                boolean ok = AlfredCliente.ccont.usuarioInserir(empresaUsuario);
+
+                if (ok) {
+                    Usuario usuarioCriado = AlfredCliente.ccont.buscarUsuario(empresaUsuario);
+
+                    Empresa empresaCadastrar = new Empresa(nome, cnpj, usuarioCriado.getCodUsuario());
+                    boolean empresaInserida = AlfredCliente.ccont.empresaInserir(empresaCadastrar);
+
+                    if (empresaInserida) {
+                        Empresa empresaSelecionada = AlfredCliente.ccont.efetuarLogin(empresaUsuario);
+                        
+                        Home home = new Home(empresaSelecionada);
+                    } else {
+                        JOptionPane.showMessageDialog(this,
+                            "Ocorreu um  erro",
+                            this.getTitle(),
+                            JOptionPane.ERROR_MESSAGE
+                        );
+                    }
+                }
+            }
+            
+        }
     }//GEN-LAST:event_jBtnCadastrarActionPerformed
 
     private void jTxtEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtEmailActionPerformed
-
-    private void jTxtSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtSenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTxtSenhaActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         FormEntrar entrar = new FormEntrar();
@@ -356,23 +400,9 @@ public class FormCadastrar extends javax.swing.JFrame {
     private void jTxtNomeFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtNomeFocusLost
         if (jTxtNome.getText().trim().equals("")) {
             jTxtNome.setText("Informe o Nome");
-            jTxtNome.setForeground(new Color(199,199,199));
+            jTxtNome.setForeground(new Color(150, 150, 150));
         }
     }//GEN-LAST:event_jTxtNomeFocusLost
-
-    private void jTxtCnpjFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtCnpjFocusGained
-        if (jTxtCnpj.getText().trim().equals("Informe o CNPJ")) {
-            jTxtCnpj.setText("");
-            jTxtCnpj.setForeground(Color.BLACK);
-        }
-    }//GEN-LAST:event_jTxtCnpjFocusGained
-
-    private void jTxtCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtCnpjFocusLost
-        if (jTxtCnpj.getText().trim().equals("")) {
-            jTxtCnpj.setText("Informe o CNPJ");
-            jTxtCnpj.setForeground(new Color(199,199,199));
-        }
-    }//GEN-LAST:event_jTxtCnpjFocusLost
 
     private void jTxtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtEmailFocusGained
         if (jTxtEmail.getText().trim().equals("Informe o Email")) {
@@ -384,23 +414,39 @@ public class FormCadastrar extends javax.swing.JFrame {
     private void jTxtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtEmailFocusLost
         if (jTxtEmail.getText().trim().equals("")) {
             jTxtEmail.setText("Informe o Email");
-            jTxtEmail.setForeground(new Color(199,199,199));
+            jTxtEmail.setForeground(new Color(150, 150, 150));
         }
     }//GEN-LAST:event_jTxtEmailFocusLost
 
-    private void jTxtSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtSenhaFocusGained
-        if (jTxtSenha.getText().trim().equals("Informe a Senha")) {
-            jTxtSenha.setText("");
-            jTxtSenha.setForeground(Color.BLACK);
+    private void jTxtCnpjFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtCnpjFocusGained
+        if (jTxtCnpj.getText().trim().equals("Informe o CNPJ")) {
+            jTxtCnpj.setText("");
+            jTxtCnpj.setForeground(Color.BLACK);
         }
-    }//GEN-LAST:event_jTxtSenhaFocusGained
+    }//GEN-LAST:event_jTxtCnpjFocusGained
 
-    private void jTxtSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtSenhaFocusLost
-        if (jTxtSenha.getText().trim().equals("")) {
-            jTxtSenha.setText("Informe a Senha");
-            jTxtSenha.setForeground(new Color(199,199,199));
+    private void jTxtCnpjFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtCnpjFocusLost
+        if (jTxtCnpj.getText().trim().equals("")) {
+            jTxtCnpj.setText("Informe o CNPJ");
+            jTxtCnpj.setForeground(new Color(150, 150, 150));
         }
-    }//GEN-LAST:event_jTxtSenhaFocusLost
+    }//GEN-LAST:event_jTxtCnpjFocusLost
+
+    private void jPswSenhaFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPswSenhaFocusGained
+        if (String.valueOf(jPswSenha.getPassword()).trim().equals("Informe a Senha")) {
+            jPswSenha.setText("");
+            jPswSenha.setForeground(Color.BLACK);
+            jPswSenha.setEchoChar((char)'*');
+        }
+    }//GEN-LAST:event_jPswSenhaFocusGained
+
+    private void jPswSenhaFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPswSenhaFocusLost
+        if (String.valueOf(jPswSenha.getPassword()).trim().equals("")) {
+            jPswSenha.setEchoChar((char)0);
+            jPswSenha.setText("Informe a Senha");
+            jPswSenha.setForeground(new Color(150, 150, 150));
+        }
+    }//GEN-LAST:event_jPswSenhaFocusLost
 
     /**
      * @param args the command line arguments
@@ -478,9 +524,9 @@ public class FormCadastrar extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelEmail;
     private javax.swing.JPanel jPanelNome;
     private javax.swing.JPanel jPanelSenha;
+    private javax.swing.JPasswordField jPswSenha;
     private javax.swing.JTextField jTxtCnpj;
     private javax.swing.JTextField jTxtEmail;
     private javax.swing.JTextField jTxtNome;
-    private javax.swing.JTextField jTxtSenha;
     // End of variables declaration//GEN-END:variables
 }

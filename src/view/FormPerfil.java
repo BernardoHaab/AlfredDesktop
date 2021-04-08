@@ -5,18 +5,34 @@
  */
 package view;
 
+import modelDominio.Empresa;
+
 /**
  *
  * @author be_ha
  */
 public class FormPerfil extends javax.swing.JDialog {
 
+    Empresa empresa;
+    
     /**
      * Creates new form FormPerfil
      */
-    public FormPerfil(java.awt.Frame parent, boolean modal) {
+    public FormPerfil(java.awt.Frame parent, boolean modal, Empresa empresa) {
         super(parent, modal);
+        this.empresa = empresa;
         initComponents();
+        
+        jTxtNome.setText(this.empresa.getNomeEmpresa());
+        jTxtEmail.setText(this.empresa.getEmailUsuario());
+        jTxtCnpj.setText(this.empresa.getCnpjEmpresa());
+        
+        if (this.empresa.getEnderecoEmpresa() != null) {
+            jTxtBairro.setText(this.empresa.getEnderecoEmpresa().getBairroEndereco());
+            jTxtRua.setText(this.empresa.getEnderecoEmpresa().getRuaEndereco());
+            jTxtNumero.setText(this.empresa.getEnderecoEmpresa().getNumeroEnderecoToString());
+            jTxtComplemento.setText(this.empresa.getEnderecoEmpresa().getComplementoEndereco());
+        }
     }
 
     /**
@@ -159,6 +175,11 @@ public class FormPerfil extends javax.swing.JDialog {
         jBtnCancelar.setText("Cancelar");
         jBtnCancelar.setBorder(null);
         jBtnCancelar.setBorderPainted(false);
+        jBtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnCancelarActionPerformed(evt);
+            }
+        });
 
         jBtnSalvar.setBackground(new java.awt.Color(150, 150, 150));
         jBtnSalvar.setFont(new java.awt.Font("Poppins Medium", 0, 20)); // NOI18N
@@ -298,47 +319,51 @@ public class FormPerfil extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void jBtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnCancelarActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBtnCancelarActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                FormPerfil dialog = new FormPerfil(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(FormPerfil.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the dialog */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                FormPerfil dialog = new FormPerfil(new javax.swing.JFrame(), true);
+//                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+//                    @Override
+//                    public void windowClosing(java.awt.event.WindowEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+//                dialog.setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnCancelar;

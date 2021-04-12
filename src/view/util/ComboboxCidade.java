@@ -9,21 +9,21 @@ import java.util.ArrayList;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import modelDominio.Categoria;
+import modelDominio.Cidade;
 
 /**
  * @author herrmann
  */
 //Referência: http://www.guj.com.br/t/jcombobox-tem-id/50938/10
 
-public class ComboboxCategoria {
+public class ComboboxCidade {
      
     //Atributos privados do ComboBox
     private String value; // String que aparece para o usuário
-    private int key;      // Código da String (Chave primaria da tabela Categoria)
+    private int key;      // Código da String (Chave primaria da tabela Cidade)
 
     // Método construtor
-    public ComboboxCategoria(int key, String value) {
+    public ComboboxCidade(int key, String value) {
         this.key = key;
         this.value = value;
     }
@@ -34,7 +34,7 @@ public class ComboboxCategoria {
     public String toString() {
         return value;
     }
-    
+
     // método get a chave primária
     public int getKey() {
         return key;
@@ -46,28 +46,28 @@ public class ComboboxCategoria {
         if (obj == null)
             return -1; // se nenhum item estiver selecionado devolve -1
         else
-            return ((ComboboxCategoria) obj).getKey();// devolve o código da chave selecionada
+            return ((ComboboxCidade) obj).getKey();// devolve o código da chave selecionada
     }
     
-    // Método que preenche o comboBox com os nomes das Categorias.
+    // Método que preenche o comboBox com os nomes das Cidades.
     // selCodigo --> parâmetro para já selecionar um código 
     // combo     --> ComboBox a ser preenchida
     // lista     --> Lista de Raças
-    public static void preencheComboBoxCategoria(int SelCodigo, JComboBox combo, ArrayList<Categoria> lista, Boolean addExtra){
+    public static void preencheComboBoxCidade(int SelCodigo, JComboBox combo, ArrayList<Cidade> lista, Boolean addExtra){
         Vector vlista= new Vector();
         int x = 0;  // se quiser inserir um vazio então tem que jogar esse número para 1
         int selecionarCodigo = -1; // guarda a posicao se tiver código selecionado
         
         /* inserindo vazio*/
-        // só habilite a linha abaixo se você quiser uma Categoria vazia, exemplo:
-        // cadastrar sem Categoria.
+        // só habilite a linha abaixo se você quiser uma Cidade vazia, exemplo:
+        // cadastrar sem Cidade.
         if (addExtra)
-            vlista.add(new ComboboxCategoria(0,"Selecie uma categoria"));
+            vlista.add(new ComboboxCidade(0,"Selecione uma cidade"));
             
         // percorre toda a lista de Raças e armazena as informações no Vector vlista;
-        for (Categoria c: lista){ 
-            // criando um ComboBoxCategoria
-            ComboboxCategoria cmb = new ComboboxCategoria(c.getCodCategoria(),c.getNomeCategoria());
+        for (Cidade c: lista){ 
+            // criando um ComboBoxCidade
+            ComboboxCidade cmb = new ComboboxCidade(c.getCodCidade(),c.getNomeCidade());
             // armazenando esse comboBoc no Vector
             vlista.add(cmb);
             // Se o código atual for igual ao código que já se deseja pré-selecionar

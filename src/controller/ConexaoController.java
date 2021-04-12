@@ -7,7 +7,11 @@ package controller;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import modelDominio.Categoria;
+import modelDominio.Cidade;
 import modelDominio.Empresa;
+import modelDominio.Estado;
 import modelDominio.Usuario;
 
 /**
@@ -19,6 +23,7 @@ public class ConexaoController {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private int idUnico;
+    public Empresa empresa;
 
     public ConexaoController(ObjectOutputStream out, ObjectInputStream in, int idUnico) {
         this.out = out;
@@ -33,42 +38,53 @@ public class ConexaoController {
         try{
             out.writeObject("EmpresaInserir");
             msg = (String) in.readObject();
-            out.writeObject(empresa);
-            msg = (String) in.readObject(); 
             if (msg.equals("ok")) {
-                return true;
+                out.writeObject(empresa);
+                msg = (String) in.readObject();
+                return msg.equals("ok");
             } else {
-                return false;
+                throw new Exception("Erro ao inserir empresa");
             }
+            
         }catch(Exception ex){
             ex.printStackTrace();
             return null;
         }  
     }
     
-    public Boolean empresaEsiste(Empresa empresa) {
+    public Boolean empresaExiste(Empresa empresa) {
         String msg = "";
         try {
             out.writeObject("EmpresaExiste");
             msg = (String) in.readObject();
-            out.writeObject(empresa);
-            boolean existe = (boolean) in.readObject();
             
-            return existe;
+            if (msg.equals("ok")) {
+                out.writeObject(empresa);
+                return (boolean) in.readObject();
+            } else {
+                throw new Exception("Erro ao testar se empresa existe");
+            }
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
         }
     }
     
-    public Empresa efetuarLogin(Empresa empresa) {
+    //Mudar pare o efetuarLogin
+    public Empresa efetuarLogin(Usuario usuario) {
         String msg = "";
         try{
             out.writeObject("EmpresaEfetuarLogin");
             msg = (String) in.readObject();
+            System.out.println("msg = " + msg);
+            if (msg.equals("ok")) {
+                out.writeObject(usuario);
+                return (Empresa) in.readObject(); 
+            } else {
+                throw new Exception("Erro ao efetuar login Empresa");
+            }
             
-            out.writeObject(empresa);
-            return (Empresa) in.readObject(); 
         }catch(Exception ex){
             ex.printStackTrace();
             return null;
@@ -82,9 +98,14 @@ public class ConexaoController {
         try {
             out.writeObject("UsuarioInserir");
             msg = (String) in.readObject();
-            out.writeObject(usr);
-            msg = (String) in.readObject();
-            return msg.equals("ok");
+            
+            if (msg.equals("ok")) {
+                out.writeObject(usr);
+                msg = (String) in.readObject();
+                return msg.equals("ok");
+            } else {
+                throw new Exception("Erro ao inserir Usuario");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             return false;
@@ -94,16 +115,77 @@ public class ConexaoController {
     public Usuario buscarUsuario(Usuario usr) {
         String msg;
         try {
-            out.writeObject("UsuarioEfetuarLogin");
+            out.writeObject("BuscarUsuario");
             msg = (String) in.readObject();
             
-            out.writeObject(usr);
-            Usuario usrselecionado = (Usuario) in.readObject();
-            return usrselecionado;
+            if (msg.equals("ok")) {
+                out.writeObject(usr);
+                return (Usuario) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista Usuario");
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
         }
     }
     
+    /* Categoria */
+    
+    public ArrayList<Categoria> categoriaLista() {
+        String msg;
+        try {
+            out.writeObject("CategoriaLista");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                return (ArrayList<Categoria>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Categorias");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /* Cidade */
+    
+    public ArrayList<Cidade> getListaCidadesEstado(Estado est) {
+        String msg;
+        try {
+            out.writeObject("GetListaCidadesEstado");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(est);
+                return (ArrayList<Cidade>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Cidades");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /* Estado */
+    
+    public ArrayList<Estado> getListaEstados() {
+        String msg;
+        try {
+            out.writeObject("GetListaEstados");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                return (ArrayList<Estado>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de getListaEstados");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

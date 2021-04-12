@@ -15,21 +15,30 @@ public class Cliente extends Usuario implements Serializable {
     private int areaCliente;  //Telavez mudar para areaTelefoneCliente
     private int telefoneCliente;
     private byte[] imageCliente;
-    private Endereco endereco;
     
-    public Cliente(
-        int codCliente, 
-        String nomeCliente, 
-        String sobrenomeCliente, 
-        Date dataNascimentoCliente, 
-        int areaCliente, 
-        int telefoneCliente, 
-        byte[] imageCliente, 
-        Endereco endereco, 
-        String EmailUsuario, 
-        String senhaUsuario
-    ) {
-        super(EmailUsuario, senhaUsuario);
+//    public Cliente(
+//        int codCliente, 
+//        String nomeCliente, 
+//        String sobrenomeCliente, 
+//        Date dataNascimentoCliente, 
+//        int areaCliente, 
+//        int telefoneCliente, 
+//        byte[] imageCliente, 
+//        String EmailUsuario, 
+//        String senhaUsuario
+//    ) {
+//        super(EmailUsuario, senhaUsuario);
+//        this.codCliente = codCliente;
+//        this.nomeCliente = nomeCliente;
+//        this.sobrenomeCliente = sobrenomeCliente;
+//        this.dataNascimentoCliente = dataNascimentoCliente;
+//        this.areaCliente = areaCliente;
+//        this.telefoneCliente = telefoneCliente;
+//        this.imageCliente = imageCliente;
+//    }
+
+    public Cliente(int codCliente, String nomeCliente, String sobrenomeCliente, Date dataNascimentoCliente, int areaCliente, int telefoneCliente, byte[] imageCliente, int codUsuario, String emailUsuario, Cidade cidadeUsuario, Estado estadoUsuario, String ruaUsuario, String bairroUsuario, String complementoUsuario, int numeroUsuario) {
+        super(codUsuario, emailUsuario, cidadeUsuario, estadoUsuario, ruaUsuario, bairroUsuario, complementoUsuario, numeroUsuario);
         this.codCliente = codCliente;
         this.nomeCliente = nomeCliente;
         this.sobrenomeCliente = sobrenomeCliente;
@@ -37,8 +46,8 @@ public class Cliente extends Usuario implements Serializable {
         this.areaCliente = areaCliente;
         this.telefoneCliente = telefoneCliente;
         this.imageCliente = imageCliente;
-        this.endereco = endereco;
     }
+    
 
     public Cliente(String nomeCliente, String sobrenomeCliente, Date dataNascimentoCliente, int areaCliente, int telefoneCliente, byte[] imageCliente) {
         this.nomeCliente = nomeCliente;
@@ -49,8 +58,18 @@ public class Cliente extends Usuario implements Serializable {
         this.imageCliente = imageCliente;
     }
     
-    public Cliente(String EmailUsuario, String senhaUsuario) {
-        super(EmailUsuario, senhaUsuario);
+    public Cliente(int codCliente, int codUsuario, String emailUsuario, String senhaUsuario) {
+        super(codUsuario, emailUsuario, senhaUsuario);
+        this.codCliente = codCliente;
+    }
+    
+    public Cliente(int codCliente, String emailUsuario, String senhaUsuario) {
+        super(emailUsuario, senhaUsuario);
+        this.codCliente = codCliente;
+    }
+
+    public Cliente(String emailUsuario, String senhaUsuario) {
+        super(emailUsuario, senhaUsuario);
     }
 
     public Cliente(int codCliente) {

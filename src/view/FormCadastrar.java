@@ -334,11 +334,11 @@ public class FormCadastrar extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Preecha o campo Nome", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             jTxtNome.requestFocus();
         }
-        else if(cnpj.equals("") || cnpj.equals("Informe o CNPJ") && Empresa.validaCnpj(cnpj)) {
+        else if(cnpj.equals("") || cnpj.equals("Informe o CNPJ") || !Empresa.validaCnpj(cnpj)) {
            JOptionPane.showMessageDialog(this, "Preecha o campo CNPJ", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             jTxtCnpj.requestFocus();
         }
-        else if(email.equals("") || email.equals("Informe o Email") && Usuario.validaEmail(senha)) {
+        else if(email.equals("") || email.equals("Informe o Email") || !Usuario.validaEmail(email)) {
            JOptionPane.showMessageDialog(this, "Preecha o campo Email", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             jTxtEmail.requestFocus();
         }
@@ -347,14 +347,15 @@ public class FormCadastrar extends javax.swing.JFrame {
             jPswSenha.requestFocus();
         }
         else {
-            Empresa empresaTeste = new Empresa(nome, email, senha, cnpj);
+            Empresa empresaTeste = new Empresa(email, cnpj);
             
-            boolean empresaExistente = AlfredCliente.ccont.empresaEsiste(empresaTeste);
+            boolean empresaExistente = AlfredCliente.ccont.empresaExiste(empresaTeste);
+            System.out.println(empresaExistente);
             
             if (empresaExistente) {
                 JOptionPane.showMessageDialog(this, "CNPJ e/ou Email já usados", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             } else {
-                Empresa empresaUsuario = new Empresa(email, senha);
+                Usuario empresaUsuario = new Usuario(email, senha);
                 boolean ok = AlfredCliente.ccont.usuarioInserir(empresaUsuario);
 
                 if (ok) {
@@ -365,8 +366,10 @@ public class FormCadastrar extends javax.swing.JFrame {
 
                     if (empresaInserida) {
                         Empresa empresaSelecionada = AlfredCliente.ccont.efetuarLogin(empresaUsuario);
-                        
-                        Home home = new Home(empresaSelecionada);
+                        AlfredCliente.ccont.empresa = empresaSelecionada;
+                        Home home = new Home();
+                        home.setVisible(true);
+                        dispose();
                     } else {
                         JOptionPane.showMessageDialog(this,
                             "Ocorreu um  erro",

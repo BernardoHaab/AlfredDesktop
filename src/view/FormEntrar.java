@@ -254,10 +254,10 @@ public class FormEntrar extends javax.swing.JFrame {
 
     private void jBtnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEntrarActionPerformed
         String email = jTxtEmail.getText().trim();
-        String senha = String.valueOf(jPswSenha.getPassword()).trim();
-        
-        if (email.equals("") ||email .equals("Email") && Usuario.validaEmail(senha)) {
-            JOptionPane.showMessageDialog(this, "Preecha o campo Email", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        String senha = String.valueOf(jPswSenha.getPassword());
+                
+        if (email.equals("") || email .equals("Email") || !Usuario.validaEmail(email)) {
+            JOptionPane.showMessageDialog(this, "Preecha o campo Email com um valor válido", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             jTxtEmail.requestFocus();
         }
         else if(senha.equals("") || senha.equals("Senha")) {
@@ -265,13 +265,18 @@ public class FormEntrar extends javax.swing.JFrame {
             jPswSenha.requestFocus();
         }
         else {
-            Empresa empresaUsuario = new Empresa(email, senha);
+            Usuario empresaUsuario = new Usuario(email, senha);
             
             Empresa empresaSelecionada = AlfredCliente.ccont.efetuarLogin(empresaUsuario);
             System.out.println(empresaSelecionada);
-            Home home = new Home(empresaSelecionada);
-            home.setVisible(true);
-            dispose();
+            if (empresaSelecionada != null) {
+                AlfredCliente.ccont.empresa = empresaSelecionada;
+                Home home = new Home();
+                home.setVisible(true);
+                dispose();                
+            } else {
+                JOptionPane.showMessageDialog(this, "Conta não encontrada", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            }
         }
 
     }//GEN-LAST:event_jBtnEntrarActionPerformed

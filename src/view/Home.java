@@ -16,15 +16,11 @@ import modelDominio.Empresa;
  * @author be_ha
  */
 public class Home extends javax.swing.JFrame {
-    Empresa empresa;
-
     /**
      * Creates new form Home
      */
-    public Home(Empresa empresa) {
-        initComponents();
-        this.empresa = empresa;
-        
+    public Home() {
+        initComponents();        
         Dimension dimensoes = Toolkit.getDefaultToolkit().getScreenSize();
         
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -387,7 +383,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnAvaliacoesActionPerformed
 
     private void jBtnEditarPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEditarPerfilActionPerformed
-        FormPerfil formPerfil = new FormPerfil(this, true, this.empresa);
+        FormPerfil formPerfil = new FormPerfil(this, true);
         formPerfil.setVisible(true);
     }//GEN-LAST:event_jBtnEditarPerfilActionPerformed
 

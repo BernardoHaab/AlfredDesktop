@@ -6,10 +6,13 @@
 package view;
 
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
 import modelDominio.Categoria;
 import modelDominio.Cidade;
 import modelDominio.Empresa;
 import modelDominio.Estado;
+import modelDominio.Usuario;
 import view.util.ComboboxCategoria;
 import view.util.ComboboxCidade;
 import view.util.ComboboxEstado;
@@ -29,13 +32,13 @@ public class FormPerfil extends javax.swing.JDialog {
         super(parent, modal);
         Empresa empresa = AlfredCliente.ccont.empresa;
         initComponents();
-        System.out.println(empresa.toString());
+        
         jTxtNome.setText(empresa.getNomeEmpresa());
         jTxtEmail.setText(empresa.getEmailUsuario());
-        System.out.println(empresa.getEmailUsuario());
         jTxtCnpj.setText(empresa.getCnpjEmpresa());
         preencheComboboxCategoria();
         preencheComboboxEstado();
+        preencheComboboxCidade(empresa.getEstadoUsuario());
         
         jTxtBairro.setText(empresa.getBairroUsuario());
         jTxtRua.setText(empresa.getRuaUsuario());
@@ -44,22 +47,42 @@ public class FormPerfil extends javax.swing.JDialog {
     }
     
     private void preencheComboboxCategoria() {
-        ArrayList<Categoria> listaCategorias = new ArrayList<Categoria>();
+        ArrayList<Categoria> listaCategorias = new ArrayList<>();
         listaCategorias = AlfredCliente.ccont.categoriaLista();
-        ComboboxCategoria.preencheComboBoxCategoria(-1, jCmbCategoria, listaCategorias, true);
+        int selectedCategoria = -1;
+        
+        if (AlfredCliente.ccont.empresa.getCategoriaEmpresa() != null) {
+            selectedCategoria = AlfredCliente.ccont.empresa.getCategoriaEmpresa().getCodCategoria() + 1;
+        }
+        
+        ComboboxCategoria.preencheComboBoxCategoria(selectedCategoria, jCmbCategoria, listaCategorias, true);
     }
     
     private void preencheComboboxCidade(Estado est) {
-        ArrayList<Cidade> listaCidades = new ArrayList<Cidade>();
-        listaCidades = AlfredCliente.ccont.getListaCidadesEstado(est);
-        System.out.println(listaCidades);
-        ComboboxCidade.preencheComboBoxCidade(-1, jCmbCidade, listaCidades, true);
+        if (est != null) {            
+            ArrayList<Cidade> listaCidades = new ArrayList<>();
+            System.out.println("Estado" + est.getCodEstado() + ", " + est.getNomeEstado());
+            listaCidades = AlfredCliente.ccont.getListaCidadesEstado(est);
+            int cidadeSelecionada = -1;
+            
+            if (AlfredCliente.ccont.empresa.getCidadeUsuario()!= null) {
+                cidadeSelecionada = AlfredCliente.ccont.empresa.getCidadeUsuario().getCodCidade() + 1;
+            }
+
+            ComboboxCidade.preencheComboBoxCidade(cidadeSelecionada , jCmbCidade, listaCidades, true);
+        }
     }
     
     private void preencheComboboxEstado() {
-        ArrayList<Estado> listaEstados = new ArrayList<Estado>();
+        ArrayList<Estado> listaEstados = new ArrayList<>();
         listaEstados = AlfredCliente.ccont.getListaEstados();
-        ComboboxEstado.preencheComboBoxEstado(-1, jCmbEstado, listaEstados, true);        
+        int estadoSelecionado = -1;
+        
+        if (AlfredCliente.ccont.empresa.getEstadoUsuario()!= null) {
+            estadoSelecionado = AlfredCliente.ccont.empresa.getEstadoUsuario().getCodEstado()+ 1;
+        }
+        
+        ComboboxEstado.preencheComboBoxEstado(estadoSelecionado, jCmbEstado, listaEstados, true);        
     }
 
     /**
@@ -86,7 +109,6 @@ public class FormPerfil extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jCmbCidade = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jTxtRua = new javax.swing.JTextField();
@@ -96,9 +118,10 @@ public class FormPerfil extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         jBtnCancelar = new javax.swing.JButton();
         jBtnSalvar = new javax.swing.JButton();
-        jCmbEstado = new javax.swing.JComboBox<>();
+        jCmbCidade = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
         jTxtBairro = new javax.swing.JTextField();
+        jCmbEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -166,9 +189,6 @@ public class FormPerfil extends javax.swing.JDialog {
         jLabel8.setForeground(new java.awt.Color(150, 150, 150));
         jLabel8.setText("Estado");
 
-        jCmbCidade.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
-        jCmbCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione um estado" }));
-
         jLabel9.setFont(new java.awt.Font("Poppins SemiBold", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(150, 150, 150));
         jLabel9.setText("Cidade");
@@ -212,13 +232,19 @@ public class FormPerfil extends javax.swing.JDialog {
         jBtnSalvar.setText("Salvar");
         jBtnSalvar.setBorder(null);
         jBtnSalvar.setBorderPainted(false);
-
-        jCmbEstado.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
-        jCmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jCmbEstado.setSelectedIndex(-1);
-        jCmbEstado.addActionListener(new java.awt.event.ActionListener() {
+        jBtnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCmbEstadoActionPerformed(evt);
+                jBtnSalvarActionPerformed(evt);
+            }
+        });
+
+        jCmbCidade.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
+        jCmbCidade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCmbCidade.setSelectedIndex(-1);
+        jCmbCidade.setToolTipText("");
+        jCmbCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCmbCidadeActionPerformed(evt);
             }
         });
 
@@ -228,6 +254,16 @@ public class FormPerfil extends javax.swing.JDialog {
 
         jTxtBairro.setBackground(new java.awt.Color(234, 234, 234));
         jTxtBairro.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
+
+        jCmbEstado.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
+        jCmbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jCmbEstado.setSelectedIndex(-1);
+        jCmbEstado.setToolTipText("");
+        jCmbEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCmbEstadoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -267,19 +303,22 @@ public class FormPerfil extends javax.swing.JDialog {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel8)
                                     .addGap(308, 308, 308)
-                                    .addComponent(jLabel9)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTxtBairro, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jCmbEstado, javax.swing.GroupLayout.Alignment.LEADING, 0, 324, Short.MAX_VALUE))
-                                    .addComponent(jLabel13))
-                                .addGap(46, 46, 46)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel10)
-                                    .addComponent(jTxtRua)
-                                    .addComponent(jCmbCidade, 0, 509, Short.MAX_VALUE))))
-                        .addContainerGap(100, Short.MAX_VALUE))
+                                    .addComponent(jLabel9)
+                                    .addGap(258, 258, 258)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jCmbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGap(46, 46, 46)
+                                    .addComponent(jCmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTxtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel13))
+                                    .addGap(46, 46, 46)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel10)
+                                        .addComponent(jTxtRua, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -287,8 +326,8 @@ public class FormPerfil extends javax.swing.JDialog {
                         .addGap(46, 46, 46)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel12)
-                            .addComponent(jTxtComplemento))
-                        .addGap(100, 100, 100))))
+                            .addComponent(jTxtComplemento))))
+                .addGap(100, 100, 100))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -320,11 +359,11 @@ public class FormPerfil extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel8))
-                .addGap(10, 10, 10)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCmbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel13)
@@ -348,7 +387,7 @@ public class FormPerfil extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBtnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jBtnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -357,7 +396,7 @@ public class FormPerfil extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,9 +411,97 @@ public class FormPerfil extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_jBtnCancelarActionPerformed
 
+    private void jCmbCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCmbCidadeActionPerformed
+        
+    }//GEN-LAST:event_jCmbCidadeActionPerformed
+
+    private void jBtnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnSalvarActionPerformed
+        String nomeEmpresa = jTxtNome.getText();
+        String cnpjEmpresa = jTxtCnpj.getText();
+        String emailEmpresa = jTxtEmail.getText();
+        String bairroEmpresa = jTxtBairro.getText();
+        String ruaEmpresa = jTxtRua.getText();
+        String numeroEmpresa = jTxtNumero.getText();
+        
+        if (nomeEmpresa.equals("")) {
+            JOptionPane.showMessageDialog(this, "Insira o Nome do restaurante", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else if (cnpjEmpresa.equals("") || !Empresa.validaCnpj(cnpjEmpresa)) {
+            JOptionPane.showMessageDialog(this, "Insera um Cnpj válido", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else if (emailEmpresa.equals("") || !Usuario.validaEmail(emailEmpresa)) {
+            JOptionPane.showMessageDialog(this, "Insera um Email válido", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else if (bairroEmpresa.equals("")) {
+            JOptionPane.showMessageDialog(this, "Insera o Bairro", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else if (ruaEmpresa.equals("")) {
+            JOptionPane.showMessageDialog(this, "Insera a Rua", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else if (numeroEmpresa.equals("")) {
+            JOptionPane.showMessageDialog(this, "Insera o Número do endereço", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else  if (jCmbCategoria.getSelectedIndex() <= 0) {
+            JOptionPane.showMessageDialog(this, "Selecione uma Categoria", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else  if (jCmbEstado.getSelectedIndex() <= 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um Estado ", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else  if (jCmbCidade.getSelectedIndex() <= 0) {
+            JOptionPane.showMessageDialog(this, "Selecione uma Cidade ", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else {
+            Categoria catSelecionada = new Categoria(jCmbCategoria.getSelectedIndex());
+            Empresa emp = new Empresa(
+                    AlfredCliente.ccont.empresa.getCodEmpresa(),
+                    jTxtNome.getText(), 
+                    jTxtCnpj.getText(), 
+                    AlfredCliente.ccont.empresa.getAbertoFechadoEmpresa(), 
+                    catSelecionada,
+                    AlfredCliente.ccont.empresa.getImagemEmpresa()
+            );
+            
+            Cidade cid = new Cidade(jCmbCidade.getSelectedItem().toString(), jCmbEstado.getSelectedIndex());
+            System.out.println(jCmbCidade.getSelectedItem().toString());
+            System.out.println(jCmbEstado.getSelectedIndex());
+            Cidade cidadeSelecionada = AlfredCliente.ccont.buscarCidade(cid);
+            Estado est = new Estado(jCmbEstado.getSelectedIndex());
+            System.out.println(cidadeSelecionada.toString());
+//            int codUsuario, String emailUsuario, String senhaUsuario, Cidade cidadeUsuario, Estado estadoUsuario, String ruaUsuario, String bairroUsuario, String complementoUsuario, int numeroUsuario
+            Usuario usr = new Usuario(
+                AlfredCliente.ccont.empresa.getCodUsuario(), 
+                emailEmpresa,
+                AlfredCliente.ccont.empresa.getSenhaUsuario(),
+                cidadeSelecionada, 
+                est, 
+                ruaEmpresa, 
+                bairroEmpresa, 
+                jTxtComplemento.getText(), 
+                Integer.parseInt(numeroEmpresa)
+            );
+            
+            String okEmpresa = AlfredCliente.ccont.empresaAlterar(emp);
+            String okUsuario = AlfredCliente.ccont.usuarioAlterar(usr);
+            
+            if (okEmpresa.equals("ok")) {
+                AlfredCliente.ccont.empresa.setNomeEmpresa(emp.getNomeEmpresa());
+                AlfredCliente.ccont.empresa.setCnpjEmpresa(emp.getCnpjEmpresa());
+                AlfredCliente.ccont.empresa.setCategoriaEmpresa(emp.getCategoriaEmpresa());
+                AlfredCliente.ccont.empresa.setImagemEmpresa(emp.getImagemEmpresa());
+            }
+            
+            if (okUsuario.equals("ok")) {
+                AlfredCliente.ccont.empresa.setEmailUsuario(usr.getEmailUsuario());
+                AlfredCliente.ccont.empresa.setCidadeUsuario(cidadeSelecionada);
+                AlfredCliente.ccont.empresa.setEstadoUsuario(est);
+                AlfredCliente.ccont.empresa.setRuaUsuario(usr.getRuaUsuario());
+                AlfredCliente.ccont.empresa.setBairroUsuario(usr.getBairroUsuario());
+                AlfredCliente.ccont.empresa.setComplementoUsuario(usr.getComplementoUsuario());
+                AlfredCliente.ccont.empresa.setNumeroUsuario(usr.getNumeroUsuario());
+            } 
+            
+            if(okEmpresa.equals("ok") && okUsuario.equals("ok")) {
+                JOptionPane.showMessageDialog(this, "Perfil atualizado com sucesso", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao atualizar perfil", this.getTitle(), JOptionPane.ERROR_MESSAGE);                
+            }
+        }
+    }//GEN-LAST:event_jBtnSalvarActionPerformed
+
     private void jCmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCmbEstadoActionPerformed
         int codEstado = jCmbEstado.getSelectedIndex();
-        System.out.println("index" + codEstado);
+        System.out.println("codEstado" + codEstado);
         if (codEstado > 0) {
             Estado est = new Estado(codEstado);
             preencheComboboxCidade(est);

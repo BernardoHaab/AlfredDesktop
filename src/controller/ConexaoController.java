@@ -91,6 +91,25 @@ public class ConexaoController {
         }  
     }
     
+    public String empresaAlterar(Empresa empresa) {
+        String msg = "";
+        try{
+            out.writeObject("EmpresaAlterar");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(empresa);
+                msg = (String) in.readObject();
+                return msg;
+            } else {
+                throw new Exception("Erro ao inserir empresa");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
     /* Usuario */
     
     public Boolean usuarioInserir(Usuario usr) {
@@ -130,6 +149,26 @@ public class ConexaoController {
         }
     }
     
+    public String usuarioAlterar(Usuario usr) {
+        String msg = "";
+        try{
+            out.writeObject("UsuarioAlterar");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(usr);
+                msg = (String) in.readObject();
+                return msg;
+            } else {
+                throw new Exception("Erro ao inserir empresa");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
+    
     /* Categoria */
     
     public ArrayList<Categoria> categoriaLista() {
@@ -162,6 +201,24 @@ public class ConexaoController {
                 return (ArrayList<Cidade>) in.readObject();
             } else {
                 throw new Exception("Erro ao buscar lista de Cidades");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+     public Cidade buscarCidade(Cidade cid) {
+        String msg;
+        try {
+            out.writeObject("BuscarCidade");
+            msg = (String) in.readObject();
+            System.out.println("msg= " + msg);
+            if (msg.equals("ok")) {
+                out.writeObject(cid);
+                return (Cidade) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar Cidade");
             }
         } catch (Exception e) {
             e.printStackTrace();

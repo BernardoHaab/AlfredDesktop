@@ -67,7 +67,7 @@ public class ComboboxEstado {
         // percorre toda a lista de Raças e armazena as informações no Vector vlista;
         for (Estado c: lista){ 
             // criando um ComboBoxEstado
-            ComboboxEstado cmb = new ComboboxEstado(c.getCodEstado(),c.getNomeEstado());
+            ComboboxEstado cmb = new ComboboxEstado(c.getCodEstado(), c.getNomeEstado());
             // armazenando esse comboBoc no Vector
             vlista.add(cmb);
             // Se o código atual for igual ao código que já se deseja pré-selecionar

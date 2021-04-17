@@ -24,6 +24,25 @@ public class Empresa extends Usuario implements Serializable {
         this.categoriaEmpresa = categoriaEmpresa;
         this.imagemEmpresa = imagemEmpresa;
     }
+    
+    public Empresa(int codEmpresa, String nomeEmpresa, String cnpjEmpresa, Boolean abertoFechadoEmpresa, Categoria categoriaEmpresa, byte[] imagemEmpresa, int codUsuario, String emailUsuario, String senhaUsuario, Cidade cidadeUsuario, Estado estadoUsuario, String ruaUsuario, String bairroUsuario, String complementoUsuario, int numeroUsuario) {
+        super(codUsuario, emailUsuario, senhaUsuario, cidadeUsuario, estadoUsuario, ruaUsuario, bairroUsuario, complementoUsuario, numeroUsuario);
+        this.codEmpresa = codEmpresa;
+        this.nomeEmpresa = nomeEmpresa;
+        this.cnpjEmpresa = cnpjEmpresa;
+        this.abertoFechadoEmpresa = abertoFechadoEmpresa;
+        this.categoriaEmpresa = categoriaEmpresa;
+        this.imagemEmpresa = imagemEmpresa;
+    }
+
+    public Empresa(int codEmpresa, String nomeEmpresa, String cnpjEmpresa, Boolean abertoFechadoEmpresa, Categoria categoriaEmpresa, byte[] imagemEmpresa) {
+        this.codEmpresa = codEmpresa;
+        this.nomeEmpresa = nomeEmpresa;
+        this.cnpjEmpresa = cnpjEmpresa;
+        this.abertoFechadoEmpresa = abertoFechadoEmpresa;
+        this.categoriaEmpresa = categoriaEmpresa;
+        this.imagemEmpresa = imagemEmpresa;
+    }
 
 //    public Empresa(
 //        String nomeEmpresa, 

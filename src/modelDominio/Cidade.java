@@ -33,6 +33,11 @@ public class Cidade implements Serializable {
         this.codCidade = codCidade;
     }
 
+    public Cidade(String nomeCidade, int codEstado) {
+        this.nomeCidade = nomeCidade;
+        this.codEstado = codEstado;
+    }
+
     public int getCodCidade() {
         return codCidade;
     }
@@ -56,6 +61,9 @@ public class Cidade implements Serializable {
     public void setCodEstado(int codEstado) {
         this.codEstado = codEstado;
     }
-    
-    
+
+    @Override
+    public String toString() {
+        return "Cidade{" + "codCidade=" + codCidade + ", nomeCidade=" + nomeCidade + ", codEstado=" + codEstado + '}';
+    }
 }

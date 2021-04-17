@@ -268,7 +268,7 @@ public class FormEntrar extends javax.swing.JFrame {
             Usuario empresaUsuario = new Usuario(email, senha);
             
             Empresa empresaSelecionada = AlfredCliente.ccont.efetuarLogin(empresaUsuario);
-            System.out.println(empresaSelecionada);
+            
             if (empresaSelecionada != null) {
                 AlfredCliente.ccont.empresa = empresaSelecionada;
                 Home home = new Home();

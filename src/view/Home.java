@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import modelDominio.Empresa;
 
 /**
@@ -27,10 +28,9 @@ public class Home extends javax.swing.JFrame {
 //        jPanel1.setPreferredSize(new Dimension((int)dimensoes.getWidth(),(int)dimensoes.getHeight()+150));
 //        jScrollPane5.setPreferredSize(new Dimension((int)dimensoes.getWidth(),(int)dimensoes.getHeight()+150));
         jScrollPane5.setPreferredSize(Toolkit.getDefaultToolkit().getScreenSize());
-        System.out.println(new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()), (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
-        System.out.println(new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth() / 2), (int)Toolkit.getDefaultToolkit().getScreenSize().getHeight()));
 //        scrollPane.setFitToWidth(true);
         jBtnAddPrato.requestFocus();
+        jCbxRestauranteStatus.setSelected(AlfredCliente.ccont.empresa.getAbertoFechadoEmpresa());
     }
 
     /**
@@ -85,6 +85,11 @@ public class Home extends javax.swing.JFrame {
         jCbxRestauranteStatus.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jCbxRestauranteStatus.setBorder(null);
         jCbxRestauranteStatus.setBorderPainted(true);
+        jCbxRestauranteStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jCbxRestauranteStatusMouseClicked(evt);
+            }
+        });
         jCbxRestauranteStatus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCbxRestauranteStatusActionPerformed(evt);
@@ -409,6 +414,24 @@ public class Home extends javax.swing.JFrame {
         FormPrato formPrato = new FormPrato(this, true);
         formPrato.setVisible(true);
     }//GEN-LAST:event_jBtnAddPratoActionPerformed
+
+    private void jCbxRestauranteStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCbxRestauranteStatusMouseClicked
+        System.out.println(AlfredCliente.ccont.empresa.getCategoriaEmpresa());
+        if (AlfredCliente.ccont.empresa.getCategoriaEmpresa().getCodCategoria() > 0) {
+//            System.out.println(jCbxRestauranteStatus.isSelected());
+            Empresa emp = new Empresa(AlfredCliente.ccont.empresa.getCodEmpresa(), jCbxRestauranteStatus.isSelected());
+            String ok = AlfredCliente.ccont.abrirFecharempresa(emp);
+            if (ok.equals("ok")) {
+                AlfredCliente.ccont.empresa.setAbertoFechadoEmpresa(emp.getAbertoFechadoEmpresa());
+                JOptionPane.showMessageDialog(this, "Restaurante aberto com sucesso", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Erro ao abrir restaurante!", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Você deve completar o cadastro antes de abrir o restaurante!", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+            jCbxRestauranteStatus.setSelected(false);
+        }
+    }//GEN-LAST:event_jCbxRestauranteStatusMouseClicked
 
 //    /**
 //     * @param args the command line arguments

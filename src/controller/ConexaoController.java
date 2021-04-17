@@ -110,6 +110,25 @@ public class ConexaoController {
         }  
     }
     
+    public String abrirFecharempresa(Empresa empresa) {
+        String msg = "";
+        try{
+            out.writeObject("AbrirFecharempresa");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(empresa);
+                msg = (String) in.readObject();
+                return msg;
+            } else {
+                throw new Exception("Erro ao abrir/fechar empresa");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
     /* Usuario */
     
     public Boolean usuarioInserir(Usuario usr) {
@@ -193,7 +212,7 @@ public class ConexaoController {
     public ArrayList<Cidade> getListaCidadesEstado(Estado est) {
         String msg;
         try {
-            out.writeObject("GetListaCidadesEstado");
+            out.writeObject("ListaCidadesEstado");
             msg = (String) in.readObject();
             
             if (msg.equals("ok")) {
@@ -231,7 +250,7 @@ public class ConexaoController {
     public ArrayList<Estado> getListaEstados() {
         String msg;
         try {
-            out.writeObject("GetListaEstados");
+            out.writeObject("ListaEstados");
             msg = (String) in.readObject();
             
             if (msg.equals("ok")) {

@@ -5,7 +5,9 @@
  */
 package view.tablemodel;
 
+import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
+import modelDominio.Prato;
 
 /**
  *
@@ -13,9 +15,15 @@ import javax.swing.table.AbstractTableModel;
  */
 public class PratosTableModel extends AbstractTableModel{
 
+    private ArrayList<Prato> listaPratos;
+
+    public PratosTableModel(ArrayList<Prato> listaPratos) {
+        this.listaPratos = listaPratos;
+    }
+        
     @Override
     public int getRowCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return listaPratos.size();
     }
 
     @Override
@@ -24,17 +32,32 @@ public class PratosTableModel extends AbstractTableModel{
     }
 
     @Override
-    public Object getValueAt(int i, int i1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Prato prato = listaPratos.get(rowIndex);
+        
+        switch (columnIndex){
+            case 0:
+                return prato.getNomePrato();
+            case 1: 
+                return prato.getDescricaoPrato();
+            case 2: 
+                return prato.getValorPratoString();
+            default: 
+                return "";
+        }
     }
     
     @Override
     public String getColumnName(int column) {
-       switch (column){
+        switch (column){
             case 0 : return "Nome";
             case 1 : return "Descrição";
             case 2 : return "Preço";
             default : return "";
         }
+    }
+    
+    public Prato getPrato(int row) {
+        return listaPratos.get(row);
     }
 }

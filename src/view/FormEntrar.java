@@ -361,6 +361,13 @@ public class FormEntrar extends javax.swing.JFrame {
                 new FormEntrar().setVisible(true);
             }
         });
+        
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
+                System.out.println("In shutdown hook");
+                AlfredCliente.ccont.fim();
+            }
+        }, "Shutdown-thread"));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

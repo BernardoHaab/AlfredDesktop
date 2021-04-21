@@ -8,18 +8,21 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelDominio.Empresa;
+import modelDominio.Prato;
+import view.tablemodel.PratosTableModel;
 
 /**
  *
  * @author be_ha
  */
 public class Home extends javax.swing.JFrame {
-    /**
-     * Creates new form Home
-     */
+    
+    private PratosTableModel pratoModel;
+    
     public Home() {
         initComponents();        
         Dimension dimensoes = Toolkit.getDefaultToolkit().getScreenSize();
@@ -31,6 +34,7 @@ public class Home extends javax.swing.JFrame {
 //        scrollPane.setFitToWidth(true);
         jBtnAddPrato.requestFocus();
         jCbxRestauranteStatus.setSelected(AlfredCliente.ccont.empresa.getAbertoFechadoEmpresa());
+        this.atualizaTabelaPratos();
     }
 
     /**
@@ -142,13 +146,13 @@ public class Home extends javax.swing.JFrame {
 
         jTblPendentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane2.setViewportView(jTblPendentes);
@@ -158,13 +162,13 @@ public class Home extends javax.swing.JFrame {
 
         jTblAceitos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane3.setViewportView(jTblAceitos);
@@ -174,13 +178,13 @@ public class Home extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"aaa", null, null, null},
-                {"aa", null, null, null},
-                {"aaa", null, null, null},
-                {"asafasfas", "asdfasdf", null, "sadfasfsd"}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane4.setViewportView(jTable1);
@@ -279,15 +283,20 @@ public class Home extends javax.swing.JFrame {
 
         jTblPratos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
+        jTblPratos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblPratosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTblPratos);
 
         javax.swing.GroupLayout jPanelPratosLayout = new javax.swing.GroupLayout(jPanelPratos);
@@ -379,6 +388,14 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+     private void atualizaTabelaPratos() {
+        ArrayList<Prato> listaPrato = AlfredCliente.ccont.pratoListaEmpresa(AlfredCliente.ccont.empresa.getCodEmpresa());
+        System.out.println(listaPrato);
+        pratoModel = new PratosTableModel(listaPrato);
+        jTblPratos.setModel(pratoModel);
+    }
+
+    
     private void jTxtPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtPesquisaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTxtPesquisaActionPerformed
@@ -413,6 +430,7 @@ public class Home extends javax.swing.JFrame {
     private void jBtnAddPratoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddPratoActionPerformed
         FormPrato formPrato = new FormPrato(this, true);
         formPrato.setVisible(true);
+        this.atualizaTabelaPratos();
     }//GEN-LAST:event_jBtnAddPratoActionPerformed
 
     private void jCbxRestauranteStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCbxRestauranteStatusMouseClicked
@@ -432,6 +450,12 @@ public class Home extends javax.swing.JFrame {
             jCbxRestauranteStatus.setSelected(false);
         }
     }//GEN-LAST:event_jCbxRestauranteStatusMouseClicked
+
+    private void jTblPratosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblPratosMouseClicked
+        FormPrato formPrato = new FormPrato(this, true, pratoModel.getPrato(jTblPratos.getSelectedRow()));
+        formPrato.setVisible(true);
+        this.atualizaTabelaPratos();
+    }//GEN-LAST:event_jTblPratosMouseClicked
 
 //    /**
 //     * @param args the command line arguments

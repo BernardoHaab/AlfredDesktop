@@ -12,6 +12,7 @@ import modelDominio.Categoria;
 import modelDominio.Cidade;
 import modelDominio.Empresa;
 import modelDominio.Estado;
+import modelDominio.Prato;
 import modelDominio.Usuario;
 
 /**
@@ -263,5 +264,76 @@ public class ConexaoController {
             return null;
         }
     }
-
+    
+    /* Prato */
+    
+    public Boolean pratoInserir(Prato prato) {
+        String msg = "";
+        try{
+            out.writeObject("PratoInserir");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(prato);
+                msg = (String) in.readObject();
+                return msg.equals("ok");
+            } else {
+                throw new Exception("Erro ao inserir prato");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
+    public ArrayList<Prato> pratoListaEmpresa(int codEmp) {
+        String msg;
+        try {
+            out.writeObject("PratoListaEmpresa");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(codEmp);
+                return (ArrayList<Prato>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Pratos");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public Boolean pratoAlterar(Prato prato) {
+        String msg = "";
+        try{
+            out.writeObject("PratoAlterar");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(prato);
+                msg = (String) in.readObject();
+                return msg.equals("ok");
+            } else {
+                throw new Exception("Erro ao inserir prato");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
+    
+    /* FIM */
+    
+    public void fim(){
+         String msg;
+        try{
+            out.writeObject("fim");
+            in.close();
+            out.close();
+        }catch(Exception ex){
+            ex.printStackTrace();
+        }
+     }
 }

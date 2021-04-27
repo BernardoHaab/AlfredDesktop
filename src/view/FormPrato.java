@@ -205,6 +205,8 @@ public class FormPrato extends javax.swing.JDialog {
         boolean ok = AlfredCliente.ccont.pratoInserir(prato);
 
         if (ok) {
+            double precoMedioEmpresa = AlfredCliente.ccont.buscarPrecoMedioEmpresa();
+            AlfredCliente.ccont.empresa.setPrecoMedioEmpresa(precoMedioEmpresa);
             JOptionPane.showMessageDialog(this, "Prato inserido com sucesso!", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
             dispose();
         } else {

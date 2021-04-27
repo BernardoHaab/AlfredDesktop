@@ -8,6 +8,7 @@ package controller;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import modelDominio.Avaliacao;
 import modelDominio.Categoria;
 import modelDominio.Cidade;
 import modelDominio.Empresa;
@@ -188,6 +189,23 @@ public class ConexaoController {
         }  
     }
     
+    public double buscarPrecoMedioEmpresa() {
+        String msg;
+        try {
+            out.writeObject("BuscarPrecoMedioEmpresa");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(empresa.getCodEmpresa());
+                return (double) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista Usuario");
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return 0;
+        }
+    }
     
     /* Categoria */
     
@@ -304,6 +322,25 @@ public class ConexaoController {
         }
     }
     
+    public ArrayList<Prato> pratoListaEmpresaNome(int codEmp, String nomeEmpresa) {
+        String msg;
+        try {
+            out.writeObject("PratoListaEmpresaNome");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(codEmp);
+                out.writeObject(nomeEmpresa);
+                return (ArrayList<Prato>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Pratos");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public Boolean pratoAlterar(Prato prato) {
         String msg = "";
         try{
@@ -322,7 +359,26 @@ public class ConexaoController {
             return null;
         }  
     }
+        
+    /* Avaliações */
     
+    public ArrayList<Avaliacao> listaAvaliacoesEmpresa() {
+        String msg;
+        try {
+            out.writeObject("ListaAvaliacoesEmpresa");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(empresa.getCodEmpresa());
+                return (ArrayList<Avaliacao>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Categorias");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     
     /* FIM */
     

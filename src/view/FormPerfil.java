@@ -5,6 +5,7 @@
  */
 package view;
 
+import java.io.File;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
@@ -49,10 +50,26 @@ public class FormPerfil extends javax.swing.JDialog {
         jTxtNumero.setText(empresa.getNumeroUsuarioToString());
         jTxtComplemento.setText(empresa.getComplementoUsuario());
         
-        if (empresa.getImagemEmpresa() != null) {
-            imagem = new Imagem(empresa.getImagemEmpresa());
-            jLbImagem.setIcon(imagem.getImageIcon());
+        atualizarImagem(null);
+//        if (empresa.getImagemEmpresa() != null) {
+//            imagem = new Imagem(empresa.getImagemEmpresa());
+////            jLbImagem.setIcon(imagem.getImageIcon());
+//        }
+    }
+    
+    // Testar
+    private void atualizarImagem(File imagemCarregada) {
+        Imagem imagem = null;
+        if (imagemCarregada != null) {
+            imagem = new Imagem(imagemCarregada);
+            this.imagem = imagem;
+        }else if (AlfredCliente.ccont.empresa.getImagemEmpresa() != null) {
+            imagem = new Imagem(AlfredCliente.ccont.empresa.getImagemEmpresa());
+            this.imagem = imagem;
+        } else {
+            imagem = new Imagem(new File(new File("").getAbsolutePath() + "\\src\\view\\imagens\\logo_PB.jpg"));
         }
+        jLbImagem.setIcon(imagem.getImageIconRounded());
     }
     
     private void preencheComboboxCategoria() {
@@ -141,8 +158,6 @@ public class FormPerfil extends javax.swing.JDialog {
         jLabel1.setText("Endereço do restaurante");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLbImagem.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
 
         jBtnImagem.setBackground(new java.awt.Color(150, 150, 150));
         jBtnImagem.setFont(new java.awt.Font("Poppins SemiBold", 0, 14)); // NOI18N
@@ -322,19 +337,18 @@ public class FormPerfil extends javax.swing.JDialog {
                             .addGap(308, 308, 308)
                             .addComponent(jLabel9)
                             .addGap(258, 258, 258)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jCmbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGap(46, 46, 46)
-                            .addComponent(jCmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTxtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel13))
-                            .addGap(46, 46, 46)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel10)
-                                .addComponent(jTxtRua, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jCmbEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(46, 46, 46)
+                        .addComponent(jCmbCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTxtBairro, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel13))
+                        .addGap(46, 46, 46)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jTxtRua, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel11)
@@ -463,7 +477,7 @@ public class FormPerfil extends javax.swing.JDialog {
                 imagemSelecionada = imagem.getImagem();
             }
             
-            Categoria catSelecionada = new Categoria(jCmbCategoria.getSelectedIndex());
+            Categoria catSelecionada = new Categoria(jCmbCategoria.getSelectedIndex(), jCmbCategoria.getSelectedItem().toString());
             Empresa emp = new Empresa(
                 AlfredCliente.ccont.empresa.getCodEmpresa(),
                 jTxtNome.getText(), 
@@ -510,6 +524,7 @@ public class FormPerfil extends javax.swing.JDialog {
             } 
             
             if(okEmpresa.equals("ok") && okUsuario.equals("ok")) {
+                dispose();
                 JOptionPane.showMessageDialog(this, "Perfil atualizado com sucesso", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao atualizar perfil", this.getTitle(), JOptionPane.ERROR_MESSAGE);                
@@ -519,7 +534,6 @@ public class FormPerfil extends javax.swing.JDialog {
 
     private void jCmbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCmbEstadoActionPerformed
         int codEstado = jCmbEstado.getSelectedIndex();
-        System.out.println("codEstado" + codEstado);
         if (codEstado > 0) {
             Estado est = new Estado(codEstado);
             preencheComboboxCidade(est);
@@ -530,8 +544,9 @@ public class FormPerfil extends javax.swing.JDialog {
         FileNameExtensionFilter imageFilter = new FileNameExtensionFilter("Image files", ImageIO.getReaderFileSuffixes());
         jFileChooser1.addChoosableFileFilter(imageFilter);
         if (jFileChooser1.showOpenDialog(this) ==  JFileChooser.APPROVE_OPTION){
-            imagem = new Imagem(jFileChooser1.getSelectedFile());
-            jLbImagem.setIcon(imagem.getImageIcon());
+//            imagem = new Imagem(jFileChooser1.getSelectedFile());
+//            jLbImagem.setIcon(imagem.getImageIcon());
+            this.atualizarImagem(jFileChooser1.getSelectedFile());
         }
     }//GEN-LAST:event_jBtnImagemActionPerformed
 

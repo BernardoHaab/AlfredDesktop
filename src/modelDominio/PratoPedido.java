@@ -6,11 +6,15 @@ import java.text.DecimalFormat;
 public class PratoPedido implements Serializable {
     private static final long serialVersionUID = 123456789L;
     private int codPratoPedido;
+    private Prato prato;
     private int quantidadePratoPedido;
     private double valorUnidadePratoPedido;
+    private int codPedido;
 
     public PratoPedido(int codPratoPedido, int quantidadePratoPedido, double valorUnidadePratoPedido) {
         this.codPratoPedido = codPratoPedido;
+        Prato prato = new Prato(codPratoPedido);
+        this.prato = prato;
         this.quantidadePratoPedido = quantidadePratoPedido;
         this.valorUnidadePratoPedido = valorUnidadePratoPedido;
     }
@@ -20,12 +24,31 @@ public class PratoPedido implements Serializable {
         this.valorUnidadePratoPedido = valorUnidadePratoPedido;
     }
 
+    public PratoPedido(int codPratoPedido, Prato prato, int quantidadePratoPedido, int codPedido) {
+        this.codPratoPedido = codPratoPedido;
+        this.prato = prato;
+        this.quantidadePratoPedido = quantidadePratoPedido;
+        this.codPedido = codPedido;
+    }
+
+    public PratoPedido(int codPratoPedido) {
+        this.codPratoPedido = codPratoPedido;
+    }
+    
     public int getCodPratoPedido() {
         return codPratoPedido;
     }
 
     public void setCodPratoPedido(int codPratoPedido) {
         this.codPratoPedido = codPratoPedido;
+    }
+    
+    public Prato getPrato() {
+        return prato;
+    }
+
+    public void setPrato(Prato prato) {
+        this.prato = prato;
     }
 
     public int getQuantidadePratoPedido() {
@@ -50,9 +73,17 @@ public class PratoPedido implements Serializable {
         return decimalFormat.format(valorUnidadePratoPedido);
     }
 
-    @Override
-    public String toString() {
-        return "PratoPedido{" + "codPratoPedido=" + codPratoPedido + ", quantidadePratoPedido=" + quantidadePratoPedido + ", valorUnidadePratoPedido=" + valorUnidadePratoPedido + '}';
+    public int getCodPedido() {
+        return codPedido;
+    }
+
+    public void setCodPedido(int codPedido) {
+        this.codPedido = codPedido;
     }
     
+    @Override
+    public String toString() {
+        return "PratoPedido{" + "prato=" + prato + ", quantidadePratoPedido=" + quantidadePratoPedido + ", valorUnidadePratoPedido=" + valorUnidadePratoPedido + '}';
+    }
+
 }

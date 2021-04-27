@@ -13,7 +13,9 @@ import modelDominio.Categoria;
 import modelDominio.Cidade;
 import modelDominio.Empresa;
 import modelDominio.Estado;
+import modelDominio.Pedido;
 import modelDominio.Prato;
+import modelDominio.PratoPedido;
 import modelDominio.Usuario;
 
 /**
@@ -373,6 +375,102 @@ public class ConexaoController {
                 return (ArrayList<Avaliacao>) in.readObject();
             } else {
                 throw new Exception("Erro ao buscar lista de Categorias");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /* Pedido */
+    
+    public ArrayList<Pedido> listaPedidosAnalise() {
+        String msg;
+        try {
+            out.writeObject("PedidoEmpresaAnaliseLista");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(empresa.getCodEmpresa());
+                return (ArrayList<Pedido>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Pedidos em analise");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public ArrayList<Pedido> listaPedidosAprovados() {
+        String msg;
+        try {
+            out.writeObject("PedidoEmpresaAprovadoLista");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(empresa.getCodEmpresa());
+                return (ArrayList<Pedido>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Pedidos aprovados");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public ArrayList<Pedido> listaPedidosReprovados() {
+        String msg;
+        try {
+            out.writeObject("PedidoEmpresaReprovadoLista");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(empresa.getCodEmpresa());
+                return (ArrayList<Pedido>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de Pedidos reprovados");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    public String pedidoAlterar(Pedido pedido) {
+        String msg = "";
+        try{
+            out.writeObject("PedidoAlterar");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(pedido);
+                msg = (String) in.readObject();
+                return msg;
+            } else {
+                throw new Exception("Erro ao inserir empresa");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
+    /* PratoPedido */
+    
+    public ArrayList<PratoPedido> listaPratosPedido(int codPedido) {
+        String msg;
+        try {
+            out.writeObject("ListaPratosPedido");
+            msg = (String) in.readObject();
+            
+            if (msg.equals("ok")) {
+                out.writeObject(codPedido);
+                out.writeObject(empresa.getCodEmpresa());
+                return (ArrayList<PratoPedido>) in.readObject();
+            } else {
+                throw new Exception("Erro ao buscar lista de PratosPedido");
             }
         } catch (Exception e) {
             e.printStackTrace();

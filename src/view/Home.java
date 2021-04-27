@@ -14,7 +14,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelDominio.Empresa;
+import modelDominio.Pedido;
 import modelDominio.Prato;
+import view.tablemodel.PedidoTableModel;
 import view.tablemodel.PratosTableModel;
 import view.util.Imagem;
 
@@ -25,6 +27,9 @@ import view.util.Imagem;
 public class Home extends javax.swing.JFrame {
     
     private PratosTableModel pratoModel;
+    private PedidoTableModel PedidosAnaliseModel;
+    private PedidoTableModel PedidosAprovadosModel;
+    private PedidoTableModel PedidosReprovadosModel;
     private StarRater starRater;
     
     public Home() {
@@ -39,6 +44,9 @@ public class Home extends javax.swing.JFrame {
         jBtnAddPrato.requestFocus();
         jCbxRestauranteStatus.setSelected(AlfredCliente.ccont.empresa.getAbertoFechadoEmpresa());
         this.atualizaTabelaPratos();
+        this.atualizaTabelaPedidosAnalise();
+        this.atualizaTabelaPedidosAprovados();
+        this.atualizaTabelaPedidosReprovados();
         this.starRater = new StarRater(5, AlfredCliente.ccont.empresa.getAvaliacaoEmpresa().getNotaAvaliacao());
         jPnlAvaliacao.add(starRater);
         jPnlAvaliacao.revalidate();
@@ -80,14 +88,15 @@ public class Home extends javax.swing.JFrame {
         jPanelPedidos = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTblPendentes = new javax.swing.JTable();
+        jTblAnalise = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTblAceitos = new javax.swing.JTable();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
         jLabel6 = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTblRecusados = new javax.swing.JTable();
+        jLabel7 = new javax.swing.JLabel();
         jPanelPratos = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -174,7 +183,7 @@ public class Home extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Poppins SemiBold", 0, 30)); // NOI18N
         jLabel4.setText("Pedidos Pendentes");
 
-        jTblPendentes.setModel(new javax.swing.table.DefaultTableModel(
+        jTblAnalise.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -185,7 +194,12 @@ public class Home extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane2.setViewportView(jTblPendentes);
+        jTblAnalise.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblAnaliseMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(jTblAnalise);
 
         jLabel5.setFont(new java.awt.Font("Poppins SemiBold", 0, 30)); // NOI18N
         jLabel5.setText("Pedidos Aceitos");
@@ -201,12 +215,17 @@ public class Home extends javax.swing.JFrame {
 
             }
         ));
+        jTblAceitos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblAceitosMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(jTblAceitos);
 
         jLabel6.setFont(new java.awt.Font("Poppins SemiBold", 0, 30)); // NOI18N
         jLabel6.setText("Pedidos Recusados");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTblRecusados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -217,7 +236,19 @@ public class Home extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane4.setViewportView(jTable1);
+        jTblRecusados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTblRecusadosMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(jTblRecusados);
+
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/reload.png"))); // NOI18N
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelPedidosLayout = new javax.swing.GroupLayout(jPanelPedidos);
         jPanelPedidos.setLayout(jPanelPedidosLayout);
@@ -227,7 +258,10 @@ public class Home extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(jPanelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel4)
+                    .addGroup(jPanelPedidosLayout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7))
                     .addComponent(jLabel5)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
                     .addComponent(jScrollPane2)
@@ -242,8 +276,11 @@ public class Home extends javax.swing.JFrame {
         jPanelPedidosLayout.setVerticalGroup(
             jPanelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelPedidosLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(jLabel4)
+                .addGroup(jPanelPedidosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelPedidosLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel7)))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -481,7 +518,7 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     private void atualizaTabelaPratos() {
+    private void atualizaTabelaPratos() {
         String pesquisa = "";
         if (!jTxtPesquisa.getText().trim().equals("Pesquisar prato") && !jTxtPesquisa.getText().trim().equals("")) {
             pesquisa = jTxtPesquisa.getText();
@@ -490,7 +527,25 @@ public class Home extends javax.swing.JFrame {
         pratoModel = new PratosTableModel(listaPrato);
         jTblPratos.setModel(pratoModel);
     }
-
+    
+    private void atualizaTabelaPedidosAnalise() {
+        ArrayList<Pedido> listaPedido = AlfredCliente.ccont.listaPedidosAnalise();
+        PedidosAnaliseModel = new PedidoTableModel(listaPedido);
+        jTblAnalise.setModel(PedidosAnaliseModel);
+    }
+    
+    private void atualizaTabelaPedidosAprovados() {
+        ArrayList<Pedido> listaPedido = AlfredCliente.ccont.listaPedidosAprovados();
+        PedidosAprovadosModel = new PedidoTableModel(listaPedido);
+        jTblAceitos.setModel(PedidosAprovadosModel);
+    }
+    
+    
+    private void atualizaTabelaPedidosReprovados() {
+        ArrayList<Pedido> listaPedido = AlfredCliente.ccont.listaPedidosReprovados();
+        PedidosReprovadosModel = new PedidoTableModel(listaPedido);
+        jTblRecusados.setModel(PedidosReprovadosModel);
+    }
     
     private void jTxtPesquisaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTxtPesquisaActionPerformed
         // TODO add your handling code here:
@@ -560,6 +615,29 @@ public class Home extends javax.swing.JFrame {
         this.atualizaTabelaPratos();
     }//GEN-LAST:event_jTxtPesquisaKeyPressed
 
+    private void jTblAnaliseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblAnaliseMouseClicked
+        FormPedidos formPedidos = new FormPedidos(this, true, PedidosAnaliseModel.getPedido(jTblAnalise.getSelectedRow()));
+        formPedidos.setVisible(true);
+        this.atualizaTabelaPedidosAnalise();
+        this.atualizaTabelaPedidosAprovados();
+        this.atualizaTabelaPedidosReprovados();
+    }//GEN-LAST:event_jTblAnaliseMouseClicked
+
+    private void jTblAceitosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblAceitosMouseClicked
+        FormPedidos formPedidos = new FormPedidos(this, true, PedidosAprovadosModel.getPedido(jTblAceitos.getSelectedRow()));
+        formPedidos.setVisible(true);
+    }//GEN-LAST:event_jTblAceitosMouseClicked
+
+    private void jTblRecusadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTblRecusadosMouseClicked
+        FormPedidos formPedidos = new FormPedidos(this, true, PedidosReprovadosModel.getPedido(jTblRecusados.getSelectedRow()));
+        formPedidos.setVisible(true);
+    }//GEN-LAST:event_jTblRecusadosMouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        System.out.println("aaaaa testeeee");
+        this.atualizaTabelaPedidosAnalise();
+    }//GEN-LAST:event_jLabel7MouseClicked
+
 //    /**
 //     * @param args the command line arguments
 //     */
@@ -607,6 +685,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLblCategoria;
     private javax.swing.JLabel jLblImagem;
@@ -625,10 +704,10 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTblAceitos;
-    private javax.swing.JTable jTblPendentes;
+    private javax.swing.JTable jTblAnalise;
     private javax.swing.JTable jTblPratos;
+    private javax.swing.JTable jTblRecusados;
     private javax.swing.JTextField jTxtPesquisa;
     // End of variables declaration//GEN-END:variables
 }

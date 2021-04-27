@@ -10,24 +10,53 @@ public class Pedido implements Serializable {
     private int formaPagamentoPedido; // 0 - Dinheiro 1 - Cartão 
     private Cliente cliente;
     private Empresa empresa;
-
-    public Pedido(int codPedido, int statusPedido, String observacaoPedido, int formaPagamentoPedido, int codCliente, Empresa emp) {
+    private double valorTotal;
+    
+    public Pedido(int codPedido, int statusPedido, String observacaoPedido, int formaPagamentoPedido, Cliente cliente, Empresa empresa) {
         this.codPedido = codPedido;
         this.statusPedido = statusPedido;
         this.observacaoPedido = observacaoPedido;
         this.formaPagamentoPedido = formaPagamentoPedido;
-        Cliente cl = new Cliente(codCliente);
-        this.cliente = cl;
-        this.empresa = emp;
+        this.cliente = cliente;
+        this.empresa = empresa;
     }
 
-    public Pedido(int statusPedido, String observacaoPedido, int formaPagamentoPedido, int codCliente, Empresa emp) {
+    public Pedido(int codPedido, int statusPedido, String observacaoPedido, int formaPagamentoPedido, Cliente cliente, double valorTotal) {
+        this.codPedido = codPedido;
         this.statusPedido = statusPedido;
         this.observacaoPedido = observacaoPedido;
         this.formaPagamentoPedido = formaPagamentoPedido;
-        Cliente cl = new Cliente(codCliente);
-        this.cliente = cl;
-        this.empresa = emp;
+        this.cliente = cliente;
+        this.valorTotal = valorTotal;
+    }
+    
+    
+    public Pedido (Cliente cliente, Empresa empresa) {
+        this.cliente = cliente;
+        this.empresa = empresa;
+    }
+    
+    public String getEnderecoCliente() {
+        String endereco = this.getCliente().getCidadeUsuario().getNomeCidade() + " - " +
+                        this.getCliente().getEstadoUsuario().getSiglaEstado();
+        
+        if (this.getCliente().getBairroUsuario() != null) {
+            endereco = endereco + ", " + this.getCliente().getBairroUsuario();
+        }
+        
+        if (this.getCliente().getRuaUsuario() != null) {
+            endereco = endereco + " - " + this.getCliente().getRuaUsuario();
+        }
+        
+        if (this.getCliente().getNumeroUsuarioToString() != null) {
+            endereco = endereco + ", " + this.getCliente().getNumeroUsuarioToString();
+        }
+        
+        if (this.getCliente().getComplementoUsuario() != null) {
+            endereco = endereco + ", " + this.getCliente().getComplementoUsuario();
+        }
+        
+        return endereco;
     }
 
     public int getCodPedido() {
@@ -78,10 +107,18 @@ public class Pedido implements Serializable {
         this.empresa = empresa;
     }
 
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     @Override
     public String toString() {
         return "Pedido{" + "codPedido=" + codPedido + ", statusPedido=" + statusPedido + ", observacaoPedido=" + observacaoPedido + ", formaPagamentoPedido=" + formaPagamentoPedido + ", cliente=" + cliente + ", empresa=" + empresa + '}';
     }
-    
+
     
 }

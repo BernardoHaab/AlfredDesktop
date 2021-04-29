@@ -478,6 +478,25 @@ public class ConexaoController {
         }
     }
     
+    public String RecuperarSenha(String email) {
+        String msg = "";
+        try{
+            out.writeObject("RecuperarSenha");
+            msg = (String) in.readObject();
+            if (msg.equals("ok")) {
+                out.writeObject(email);
+                msg = (String) in.readObject();
+                return msg;
+            } else {
+                throw new Exception("Erro ao recuperar senha");
+            }
+            
+        }catch(Exception ex){
+            ex.printStackTrace();
+            return null;
+        }  
+    }
+    
     /* FIM */
     
     public void fim(){

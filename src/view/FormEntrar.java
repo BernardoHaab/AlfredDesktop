@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import modelDominio.Empresa;
 import modelDominio.Usuario;
+import view.util.Criptografia;
 
 /**
  *
@@ -265,6 +266,7 @@ public class FormEntrar extends javax.swing.JFrame {
             jPswSenha.requestFocus();
         }
         else {
+            senha = Criptografia.encriptar(senha);
             Usuario empresaUsuario = new Usuario(email, senha);
             
             Empresa empresaSelecionada = AlfredCliente.ccont.efetuarLogin(empresaUsuario);

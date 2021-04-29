@@ -8,15 +8,23 @@ package view;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.io.File;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author be_ha
  */
 public class FormRecuperarSenha extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form FormRecuperarSenha
      */
@@ -45,7 +53,7 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel24 = new javax.swing.JLabel();
-        jLblEmail = new javax.swing.JLabel();
+        jTxtEmail = new javax.swing.JTextField();
         jBtnEnviar = new javax.swing.JButton();
         jLabel25 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
@@ -62,15 +70,18 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
 
         jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/icon_email.png"))); // NOI18N
 
-        jLblEmail.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
-        jLblEmail.setForeground(new java.awt.Color(150, 150, 150));
-        jLblEmail.setText("Email");
-        jLblEmail.addFocusListener(new java.awt.event.FocusAdapter() {
+        jTxtEmail.setBackground(new java.awt.Color(234, 234, 234));
+        jTxtEmail.setFont(new java.awt.Font("Poppins", 0, 15)); // NOI18N
+        jTxtEmail.setForeground(new java.awt.Color(150, 150, 150));
+        jTxtEmail.setText("Email");
+        jTxtEmail.setToolTipText("");
+        jTxtEmail.setBorder(null);
+        jTxtEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jLblEmailFocusGained(evt);
+                jTxtEmailFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jLblEmailFocusLost(evt);
+                jTxtEmailFocusLost(evt);
             }
         });
 
@@ -81,16 +92,16 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel24)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLblEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(jTxtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLblEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addComponent(jTxtEmail)
                 .addContainerGap())
         );
 
@@ -99,10 +110,20 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
         jBtnEnviar.setForeground(new java.awt.Color(255, 255, 255));
         jBtnEnviar.setText("ENVIAR");
         jBtnEnviar.setBorder(null);
+        jBtnEnviar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnEnviarActionPerformed(evt);
+            }
+        });
 
         jLabel25.setFont(new java.awt.Font("Poppins", 0, 13)); // NOI18N
         jLabel25.setForeground(new java.awt.Color(91, 92, 95));
         jLabel25.setText("Voltar para o login");
+        jLabel25.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel25MouseClicked(evt);
+            }
+        });
 
         jLabel26.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/imagens/Logo.jpg"))); // NOI18N
@@ -114,12 +135,9 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jLabel25)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jBtnEnviar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel26, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(jBtnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel26, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +178,7 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanelContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,19 +190,40 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLblEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jLblEmailFocusGained
+    private void jBtnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnEnviarActionPerformed
+        String ok = AlfredCliente.ccont.RecuperarSenha(jTxtEmail.getText());
+        System.out.println("");
+        if (ok.equals("ok")) {
+            JOptionPane.showMessageDialog(this, "Email enviado!", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+            Home home = new Home();
+            home.setVisible(true);
+            dispose();
+        } else if (ok.equals("nok_usuario")) {
+            JOptionPane.showMessageDialog(this, "Email não pertence a nenhum usuario", this.getTitle(), JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao enviar email", this.getTitle(), JOptionPane.ERROR_MESSAGE); 
+        }
+    }//GEN-LAST:event_jBtnEnviarActionPerformed
+
+    private void jTxtEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtEmailFocusGained
         if (jTxtEmail.getText().trim().equals("Email")) {
             jTxtEmail.setText("");
             jTxtEmail.setForeground(Color.BLACK);
         }
-    }//GEN-LAST:event_jLblEmailFocusGained
+    }//GEN-LAST:event_jTxtEmailFocusGained
 
-    private void jLblEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jLblEmailFocusLost
+    private void jTxtEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTxtEmailFocusLost
         if (jTxtEmail.getText().trim().equals("")) {
             jTxtEmail.setText("Email");
             jTxtEmail.setForeground(new Color(199,199,199));
         }
-    }//GEN-LAST:event_jLblEmailFocusLost
+    }//GEN-LAST:event_jTxtEmailFocusLost
+
+    private void jLabel25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel25MouseClicked
+        Home home = new Home();
+        home.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jLabel25MouseClicked
 
     /**
      * @param args the command line arguments
@@ -222,86 +261,14 @@ public class FormRecuperarSenha extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.Box.Filler filler1;
-    private javax.swing.Box.Filler filler10;
-    private javax.swing.Box.Filler filler11;
-    private javax.swing.Box.Filler filler12;
-    private javax.swing.Box.Filler filler13;
-    private javax.swing.Box.Filler filler14;
-    private javax.swing.Box.Filler filler15;
-    private javax.swing.Box.Filler filler16;
-    private javax.swing.Box.Filler filler17;
-    private javax.swing.Box.Filler filler18;
-    private javax.swing.Box.Filler filler19;
-    private javax.swing.Box.Filler filler2;
-    private javax.swing.Box.Filler filler20;
-    private javax.swing.Box.Filler filler21;
-    private javax.swing.Box.Filler filler22;
-    private javax.swing.Box.Filler filler23;
-    private javax.swing.Box.Filler filler24;
-    private javax.swing.Box.Filler filler25;
-    private javax.swing.Box.Filler filler26;
-    private javax.swing.Box.Filler filler27;
-    private javax.swing.Box.Filler filler28;
-    private javax.swing.Box.Filler filler29;
-    private javax.swing.Box.Filler filler3;
-    private javax.swing.Box.Filler filler30;
-    private javax.swing.Box.Filler filler31;
-    private javax.swing.Box.Filler filler32;
-    private javax.swing.Box.Filler filler33;
-    private javax.swing.Box.Filler filler34;
-    private javax.swing.Box.Filler filler35;
-    private javax.swing.Box.Filler filler36;
-    private javax.swing.Box.Filler filler4;
-    private javax.swing.Box.Filler filler5;
-    private javax.swing.Box.Filler filler6;
-    private javax.swing.Box.Filler filler7;
-    private javax.swing.Box.Filler filler8;
-    private javax.swing.Box.Filler filler9;
-    private javax.swing.JButton jBtnEntrar;
-    private javax.swing.JButton jBtnEntrar1;
-    private javax.swing.JButton jBtnEntrar2;
     private javax.swing.JButton jBtnEnviar;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JLabel jLblEmail;
     private javax.swing.JLabel jLblImagem;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelContainer;
-    private javax.swing.JPanel jPanelEmail;
-    private javax.swing.JPanel jPanelEmail1;
-    private javax.swing.JPanel jPanelEmail2;
-    private javax.swing.JPanel jPanelEsquerda;
-    private javax.swing.JPanel jPanelEsquerda1;
-    private javax.swing.JPanel jPanelEsquerda2;
-    private javax.swing.JPanel jPanelSenha;
-    private javax.swing.JPanel jPanelSenha1;
-    private javax.swing.JPanel jPanelSenha2;
     private javax.swing.JTextField jTxtEmail;
-    private javax.swing.JTextField jTxtEmail1;
-    private javax.swing.JTextField jTxtEmail2;
-    private javax.swing.JTextField jTxtSenha;
-    private javax.swing.JTextField jTxtSenha1;
-    private javax.swing.JTextField jTxtSenha2;
     // End of variables declaration//GEN-END:variables
 }

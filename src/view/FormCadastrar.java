@@ -18,6 +18,7 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import modelDominio.Empresa;
 import modelDominio.Usuario;
+import view.util.Criptografia;
 
 /**
  *
@@ -328,7 +329,7 @@ public class FormCadastrar extends javax.swing.JFrame {
         String nome = jTxtNome.getText().trim();
         String cnpj = jTxtCnpj.getText().trim();
         String email = jTxtEmail.getText().trim();
-        String senha = String.valueOf(jPswSenha.getPassword()).trim();
+        String senha = String.valueOf(jPswSenha.getPassword());
         
         if (nome.equals("") || nome.equals("Informe o Nome")) {
             JOptionPane.showMessageDialog(this, "Preecha o campo Nome", this.getTitle(), JOptionPane.ERROR_MESSAGE);
@@ -355,6 +356,7 @@ public class FormCadastrar extends javax.swing.JFrame {
             if (empresaExistente) {
                 JOptionPane.showMessageDialog(this, "CNPJ e/ou Email já usados", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             } else {
+                senha = Criptografia.encriptar(senha);
                 Usuario empresaUsuario = new Usuario(email, senha);
                 boolean ok = AlfredCliente.ccont.usuarioInserir(empresaUsuario);
 

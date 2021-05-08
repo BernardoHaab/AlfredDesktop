@@ -23,10 +23,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-/**
- *
- * @author herrmann
- */
 public class Imagem {
     // Forcei um aspect ratio de 16:9 e tamanho máximo de 150x84
     // Se vierem imagens com tamanho ou aspect ratio diferentes o método 

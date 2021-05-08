@@ -36,6 +36,7 @@ public class FormPedidos extends javax.swing.JDialog {
         }
         jLblNome.setText(pedido.getCliente().getNomeCliente());
         jLblEndereco.setText(pedido.getEnderecoCliente());
+        jLblObs.setText(pedido.getObservacaoPedido());
         this.atualizaTabelaPratosPedido();
     }
     
@@ -60,6 +61,8 @@ public class FormPedidos extends javax.swing.JDialog {
         jLblNome = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLblEndereco = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLblObs = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTblPratosPedido = new javax.swing.JTable();
         jBtnVoltar = new javax.swing.JButton();
@@ -79,6 +82,11 @@ public class FormPedidos extends javax.swing.JDialog {
         jLabel2.setText("Endereço:");
 
         jLblEndereco.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Poppins", 1, 20)); // NOI18N
+        jLabel3.setText("Observação:");
+
+        jLblObs.setFont(new java.awt.Font("Poppins", 0, 20)); // NOI18N
 
         jTblPratosPedido.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -134,6 +142,10 @@ public class FormPedidos extends javax.swing.JDialog {
                 .addGap(60, 60, 60)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLblObs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBtnVoltar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jBtnRecusar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,6 +173,10 @@ public class FormPedidos extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLblEndereco, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(10, 10, 10)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLblObs, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
@@ -254,8 +270,10 @@ public class FormPedidos extends javax.swing.JDialog {
     private javax.swing.JButton jBtnVoltar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLblEndereco;
     private javax.swing.JLabel jLblNome;
+    private javax.swing.JLabel jLblObs;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTblPratosPedido;

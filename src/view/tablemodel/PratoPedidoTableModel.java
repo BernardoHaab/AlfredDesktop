@@ -17,6 +17,8 @@ public class PratoPedidoTableModel extends AbstractTableModel{
     private ArrayList<PratoPedido> listaPratosPedido;
 
     public PratoPedidoTableModel(ArrayList<PratoPedido> listaPratoPedidos) {
+        System.out.println("listaPRatoPedidos");
+        System.out.println(listaPratoPedidos);
         this.listaPratosPedido = listaPratoPedidos;
     }
         
@@ -36,11 +38,11 @@ public class PratoPedidoTableModel extends AbstractTableModel{
         
         switch (columnIndex){
             case 0:
-                return pratoPedido.getPrato().getNomePrato();
+                return pratoPedido.getNomePrato();
             case 1: 
                 return pratoPedido.getQuantidadePratoPedido();
             case 2: 
-                return pratoPedido.getPrato().getValorPratoString();
+                return pratoPedido.getValorUnidadePratoPedido();
             default: 
                 return "";
         }

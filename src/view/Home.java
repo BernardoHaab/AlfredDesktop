@@ -588,14 +588,16 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jBtnAddPratoActionPerformed
 
     private void jCbxRestauranteStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jCbxRestauranteStatusMouseClicked
-        System.out.println(AlfredCliente.ccont.empresa.getCategoriaEmpresa());
         if (AlfredCliente.ccont.empresa.getCategoriaEmpresa().getCodCategoria() > 0) {
-//            System.out.println(jCbxRestauranteStatus.isSelected());
             Empresa emp = new Empresa(AlfredCliente.ccont.empresa.getCodEmpresa(), jCbxRestauranteStatus.isSelected());
             String ok = AlfredCliente.ccont.abrirFecharempresa(emp);
             if (ok.equals("ok")) {
                 AlfredCliente.ccont.empresa.setAbertoFechadoEmpresa(emp.getAbertoFechadoEmpresa());
-                JOptionPane.showMessageDialog(this, "Restaurante aberto com sucesso", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                if (jCbxRestauranteStatus.isSelected()) {
+                    JOptionPane.showMessageDialog(this, "Restaurante aberto com sucesso", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Restaurante fechado com sucesso", this.getTitle(), JOptionPane.INFORMATION_MESSAGE);
+                }
             } else {
                 JOptionPane.showMessageDialog(this, "Erro ao abrir restaurante!", this.getTitle(), JOptionPane.ERROR_MESSAGE);
             }

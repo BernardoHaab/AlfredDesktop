@@ -75,7 +75,6 @@ public class ConexaoController {
         }
     }
     
-    //Mudar pare o efetuarLogin
     public Empresa efetuarLogin(Usuario usuario) {
         String msg = "";
         try{
@@ -467,7 +466,6 @@ public class ConexaoController {
             
             if (msg.equals("ok")) {
                 out.writeObject(codPedido);
-                out.writeObject(empresa.getCodEmpresa());
                 return (ArrayList<PratoPedido>) in.readObject();
             } else {
                 throw new Exception("Erro ao buscar lista de PratosPedido");

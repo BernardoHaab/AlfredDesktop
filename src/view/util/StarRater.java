@@ -99,45 +99,6 @@ public class StarRater extends JPanel {
     setOpaque(false);
     setLayout(null);
     
-    // listen to selections
-//    addMouseMotionListener(new MouseMotionAdapter() {
-//      public void mouseMoved(MouseEvent event) {
-//        if (isEnabled()) {
-//          if (!done) {
-//            rollover = 1 + (event.getX() / STAR_BACKGROUND_IMAGE.getWidth(null));        
-//            repaint();
-//          }
-//        }
-//      }
-//    });
-//    addMouseListener(new MouseAdapter() {
-//      public void mouseExited(MouseEvent event) {
-//        if (isEnabled()) {
-//          rollover = 0;   
-//          done = false;
-//          repaint();
-//        }
-//      }
-//      public void mousePressed(MouseEvent event) {
-//        if (isEnabled()) {
-//          rollover = 0;
-//          done = true;
-//          StarRater.this.selection = 1 + (event.getX() / STAR_BACKGROUND_IMAGE.getWidth(null));  
-//          for (int i = 0; i < listeners.size(); i++) {
-//            listeners.get(i).handleSelection(StarRater.this.selection);
-//          }
-//          repaint();
-//        }
-//      }
-//      public void mouseReleased(MouseEvent event) {
-//        if (isEnabled()) {
-//          if (!done) {
-//            rollover = 1 + (event.getX() / STAR_BACKGROUND_IMAGE.getWidth(null));        
-//            repaint();
-//          }
-//        }
-//      }
-//    });
   }
   
   /**
